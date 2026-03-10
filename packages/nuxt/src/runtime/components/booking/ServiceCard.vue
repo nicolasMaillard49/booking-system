@@ -1,31 +1,39 @@
 <template>
   <div
-    class="border border-neutral-200 rounded-lg p-5 cursor-pointer hover:border-black transition-colors duration-200 group"
+    class="card group cursor-pointer border-2 transition-all hover:border-blue-500 hover:shadow-lg"
     @click="$emit('select', service)"
   >
-    <div class="flex items-center justify-between gap-4">
-      <div class="flex-1 min-w-0">
-        <h3 class="text-[14px] font-semibold text-black group-hover:text-black">
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex-1">
+        <!-- Service Name -->
+        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
           {{ service.name }}
         </h3>
-        <p v-if="service.description" class="text-[13px] text-neutral-500 mt-1 line-clamp-2 leading-relaxed">
+
+        <!-- Description -->
+        <p v-if="service.description" class="text-sm text-gray-600 mt-2 line-clamp-2">
           {{ service.description }}
         </p>
-        <div class="flex items-center gap-3 mt-3">
-          <span class="text-[12px] font-medium text-neutral-500">
+
+        <!-- Meta Info -->
+        <div class="flex flex-wrap items-center gap-4 mt-4 text-sm text-gray-500">
+          <span class="flex items-center gap-1.5 font-medium">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             {{ service.duration }} min
           </span>
-          <span
-            v-if="service.isPriceVisible && service.price"
-            class="text-[12px] font-semibold text-black"
-          >
+          <span v-if="service.isPriceVisible && service.price" class="font-semibold text-gray-900">
             {{ formatPrice(service.price) }}
           </span>
         </div>
       </div>
 
-      <div class="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-black group-hover:bg-black flex items-center justify-center shrink-0 transition-all duration-200">
-        <UIcon name="i-heroicons-chevron-right" class="text-neutral-400 group-hover:text-white text-sm transition-colors duration-200" />
+      <!-- Arrow -->
+      <div class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center flex-shrink-0 group-hover:border-blue-600 group-hover:bg-blue-600 transition-all">
+        <svg class="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
       </div>
     </div>
   </div>
