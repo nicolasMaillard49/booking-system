@@ -1,0 +1,30 @@
+// tsconfig.base.json - à la racine du projet
+{
+    "compilerOptions": {
+        // Version JS cible - Node 22 supporte ES2022
+        "target": "ES2022",
+        // Système de modules - CommonJS pour NestJS
+        "module": "CommonJS",
+        // Résolution des modules
+        "moduleResolution": "node",
+        // Librairies disponibles
+        "lib": [
+            "ES2022"
+        ],
+        // Typage strict obligatoire
+        "strict": true,
+        // Nécessaire pour les imports default (express, etc.)
+        "esModuleInterop": true,
+        // Ignore les erreurs de types dans node_modules
+        "skipLibCheck": true,
+        // Génère les fichiers .d.ts
+        "declaration": true,
+        // Génère les sourcemaps des .d.ts
+        "declarationMap": true,
+        // Génère les sourcemaps JS
+        "sourceMap": true,
+        // Indispensable pour les décorateurs NestJS (@Module, @Injectable...)
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    }
+}

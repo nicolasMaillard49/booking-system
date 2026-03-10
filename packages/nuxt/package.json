@@ -1,0 +1,38 @@
+{
+  "name": "@booking/nuxt",
+  "version": "0.1.0",
+  "description": "Nuxt module for @booking packages",
+  "private": false,
+  "main": "./dist/module.cjs",
+  "module": "./dist/module.mjs",
+  "types": "./dist/types.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "dev": "nuxt-module-build build --stub",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@booking/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.0.0",
+    "@nuxt/ui": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.0.0",
+    "@nuxt/module-builder": "^0.8.0",
+    "@nuxt/schema": "^3.0.0",
+    "nuxt": "^3.0.0",
+    "typescript": "^5.7.2",
+    "rimraf": "^6.0.1"
+  }
+}

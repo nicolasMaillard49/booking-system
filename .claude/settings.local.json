@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm add:*)",
+      "Bash(pnpm approve-builds:*)",
+      "Bash(rm:*)",
+      "Bash(pnpm run:*)",
+      "Bash(npx turbo:*)",
+      "Bash(mv:*)",
+      "Bash(pnpm install:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker exec:*)",
+      "Bash(pnpm start:dev:*)",
+      "Bash(pnpm ls:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)",
+      "Bash(pnpm start:*)",
+      "Bash(xargs grep:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(npx nest:*)",
+      "Bash(tasklist:*)",
+      "Read(//tmp/**)",
+      "Bash(npx nuxt-module-build:*)",
+      "Bash(kill:*)"
+    ]
+  }
+}
