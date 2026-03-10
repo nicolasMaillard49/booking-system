@@ -1,21 +1,23 @@
 <template>
-  <div class="max-w-lg mx-auto py-12 px-4">
-    <div v-if="loading" class="flex justify-center py-20">
-      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-3xl" />
-    </div>
+  <div class="min-h-screen bg-white">
+    <div class="max-w-md mx-auto py-12 px-5">
+      <div v-if="loading" class="flex justify-center py-20">
+        <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
+      </div>
 
-    <div v-else-if="error">
-      <UAlert color="red" :title="error" />
-    </div>
+      <div v-else-if="error">
+        <UAlert color="red" :title="error" />
+      </div>
 
-    <div v-else-if="appointment">
-      <BookingAppointmentCard
-        :appointment="appointment"
-        :loading="actionLoading"
-        :error="actionError"
-        @cancel="onCancel"
-        @modify="onModify"
-      />
+      <div v-else-if="appointment">
+        <BookingAppointmentCard
+          :appointment="appointment"
+          :loading="actionLoading"
+          :error="actionError"
+          @cancel="onCancel"
+          @modify="onModify"
+        />
+      </div>
     </div>
   </div>
 </template>

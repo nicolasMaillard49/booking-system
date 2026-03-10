@@ -1,13 +1,15 @@
 <template>
-  <div class="p-6 max-w-3xl">
-    <h1 class="text-2xl font-bold mb-8">Templates email</h1>
-
-    <div class="space-y-4">
-      <UCard v-for="template in templates" :key="template.type">
+  <BookingAdminLayout title="Templates email">
+    <div class="max-w-3xl space-y-4">
+      <div
+        v-for="template in templates"
+        :key="template.type"
+        class="bg-white border border-neutral-200 rounded-lg p-5 hover:border-neutral-300 transition-colors"
+      >
         <div class="flex items-start justify-between gap-4">
           <div class="flex-1">
-            <div class="flex items-center gap-3 mb-3">
-              <span class="font-medium">{{ typeLabels[template.type] }}</span>
+            <div class="flex items-center gap-3 mb-5">
+              <span class="text-[14px] font-semibold text-black">{{ typeLabels[template.type] ?? template.type }}</span>
               <UToggle
                 :model-value="template.isEnabled"
                 @update:model-value="onToggle(template.type, $event)"
@@ -34,15 +36,20 @@
           <UButton
             size="sm"
             variant="outline"
+            color="gray"
             icon="i-heroicons-paper-airplane"
             @click="onSendTest(template.type)"
           >
             Tester
           </UButton>
         </div>
-      </UCard>
+      </div>
+
+      <div v-if="templates.length === 0" class="text-center py-16 text-neutral-400 text-[13px]">
+        Aucun template configuré
+      </div>
     </div>
-  </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">
@@ -53,12 +60,12 @@ const api = useBookingApi()
 const templates = ref<any[]>([])
 
 const typeLabels: Record<string, string> = {
-  request_received: 'Demande reçue',
-  confirmed: 'Rendez-vous confirmé',
-  rejected: 'Rendez-vous refusé',
-  modified: 'Rendez-vous modifié',
-  cancelled: 'Rendez-vous annulé',
-  reminder: 'Rappel',
+  REQUEST_RECEIVED: 'Demande reçue',
+  CONFIRMED: 'Rendez-vous confirmé',
+  REJECTED: 'Rendez-vous refusé',
+  MODIFIED: 'Rendez-vous modifié',
+  CANCELLED: 'Rendez-vous annulé',
+  REMINDER: 'Rappel',
 }
 
 async function fetchTemplates() {
@@ -86,8 +93,12 @@ async function onUpdateExtra(template: any) {
 async function onSendTest(type: string) {
   const to = prompt('Email de test :')
   if (!to) return
-  await api(`/admin/email-templates/${type}/test`, { method: 'POST', body: { to } })
-  alert('Email de test envoyé !')
+  try {
+    await api(`/admin/email-templates/${type}/test`, { method: 'POST', body: { to } })
+    alert('Email de test envoyé !')
+  } catch {
+    alert('Erreur lors de l\'envoi')
+  }
 }
 
 onMounted(fetchTemplates)

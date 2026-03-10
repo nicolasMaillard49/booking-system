@@ -37,6 +37,7 @@ export const useBookingStore = defineStore('booking-flow', () => {
   const customFields = ref<CustomFieldDefinitionConfig[]>([])
   const createdAppointmentId = ref<string | null>(null)
   const createdMagicToken = ref<string | null>(null)
+  const createdStatus = ref<string | null>(null)
 
   function selectService(service: SelectedService) {
     selectedService.value = service
@@ -59,9 +60,10 @@ export const useBookingStore = defineStore('booking-flow', () => {
     if (currentIndex > 0) step.value = steps[currentIndex - 1]
   }
 
-  function setSuccess(appointmentId: string, magicToken: string) {
+  function setSuccess(appointmentId: string, magicToken: string, status?: string) {
     createdAppointmentId.value = appointmentId
     createdMagicToken.value = magicToken
+    createdStatus.value = status ?? null
     step.value = 'success'
   }
 
@@ -78,6 +80,7 @@ export const useBookingStore = defineStore('booking-flow', () => {
     }
     createdAppointmentId.value = null
     createdMagicToken.value = null
+    createdStatus.value = null
   }
 
   return {
@@ -88,6 +91,7 @@ export const useBookingStore = defineStore('booking-flow', () => {
     customFields,
     createdAppointmentId,
     createdMagicToken,
+    createdStatus,
     selectService,
     selectSlot,
     goToConfirm,

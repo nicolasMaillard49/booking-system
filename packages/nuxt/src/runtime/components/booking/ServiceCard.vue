@@ -1,26 +1,32 @@
 <template>
   <div
-    class="border rounded-xl p-4 cursor-pointer hover:border-primary-500 hover:shadow-sm transition-all"
+    class="border border-neutral-200 rounded-lg p-5 cursor-pointer hover:border-black transition-colors duration-200 group"
     @click="$emit('select', service)"
   >
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex-1">
-        <h3 class="font-semibold text-gray-900">{{ service.name }}</h3>
-        <p v-if="service.description" class="text-sm text-gray-500 mt-1">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex-1 min-w-0">
+        <h3 class="text-[14px] font-semibold text-black group-hover:text-black">
+          {{ service.name }}
+        </h3>
+        <p v-if="service.description" class="text-[13px] text-neutral-500 mt-1 line-clamp-2 leading-relaxed">
           {{ service.description }}
         </p>
-      </div>
-
-      <div class="text-right shrink-0">
-        <div class="text-sm text-gray-500">{{ service.duration }} min</div>
-        <div v-if="service.isPriceVisible && service.price" class="font-semibold mt-1">
-          {{ formatPrice(service.price) }}
+        <div class="flex items-center gap-3 mt-3">
+          <span class="text-[12px] font-medium text-neutral-500">
+            {{ service.duration }} min
+          </span>
+          <span
+            v-if="service.isPriceVisible && service.price"
+            class="text-[12px] font-semibold text-black"
+          >
+            {{ formatPrice(service.price) }}
+          </span>
         </div>
       </div>
-    </div>
 
-    <div class="flex justify-end mt-3">
-      <UIcon name="i-heroicons-arrow-right" class="text-primary-500" />
+      <div class="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-black group-hover:bg-black flex items-center justify-center shrink-0 transition-all duration-200">
+        <UIcon name="i-heroicons-chevron-right" class="text-neutral-400 group-hover:text-white text-sm transition-colors duration-200" />
+      </div>
     </div>
   </div>
 </template>

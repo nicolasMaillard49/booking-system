@@ -3,129 +3,112 @@
     <!-- Header -->
     <div class="flex items-start justify-between">
       <div>
-        <h1 class="text-2xl font-bold">
+        <h1 class="text-[22px] font-semibold text-black tracking-[-0.02em]">
           {{ appointment.clientFirstName }} {{ appointment.clientLastName }}
         </h1>
-        <p class="text-gray-500 mt-1">{{ formatDateTime(appointment.startAt) }}</p>
+        <p class="text-[13px] text-neutral-500 mt-1">{{ formatDateTime(appointment.startAt) }}</p>
       </div>
-      <BookingSharedStatusBadge :status="appointment.status" size="lg" />
+      <BookingSharedStatusBadge :status="appointment.status" size="md" />
     </div>
 
     <!-- Infos client -->
-    <UCard>
-      <template #header>
-        <h2 class="font-semibold">Informations client</h2>
-      </template>
-      <dl class="grid grid-cols-2 gap-4 text-sm">
+    <div class="bg-white border border-neutral-200 rounded-lg p-5">
+      <h2 class="text-[13px] font-semibold text-black mb-4">Informations client</h2>
+      <dl class="grid grid-cols-2 gap-4 text-[13px]">
         <div>
-          <dt class="text-gray-500">Email</dt>
-          <dd class="font-medium">{{ appointment.clientEmail }}</dd>
+          <dt class="text-neutral-400 mb-0.5">Email</dt>
+          <dd class="font-medium text-black">{{ appointment.clientEmail }}</dd>
         </div>
         <div>
-          <dt class="text-gray-500">Téléphone</dt>
-          <dd class="font-medium">{{ appointment.clientPhone }}</dd>
+          <dt class="text-neutral-400 mb-0.5">Téléphone</dt>
+          <dd class="font-medium text-black">{{ appointment.clientPhone }}</dd>
         </div>
         <div>
-          <dt class="text-gray-500">Prestation</dt>
-          <dd class="font-medium">{{ appointment.serviceName }}</dd>
+          <dt class="text-neutral-400 mb-0.5">Prestation</dt>
+          <dd class="font-medium text-black">{{ appointment.serviceName }}</dd>
         </div>
         <div>
-          <dt class="text-gray-500">Confirmé auto</dt>
-          <dd class="font-medium">{{ appointment.autoConfirmed ? 'Oui' : 'Non' }}</dd>
+          <dt class="text-neutral-400 mb-0.5">Confirmé auto</dt>
+          <dd class="font-medium text-black">{{ appointment.autoConfirmed ? 'Oui' : 'Non' }}</dd>
         </div>
       </dl>
-    </UCard>
+    </div>
 
     <!-- Notes client -->
-    <UCard v-if="appointment.clientNotes">
-      <template #header>
-        <h2 class="font-semibold">Notes du client</h2>
-      </template>
-      <p class="text-sm text-gray-700">{{ appointment.clientNotes }}</p>
-    </UCard>
+    <div v-if="appointment.clientNotes" class="bg-white border border-neutral-200 rounded-lg p-5">
+      <h2 class="text-[13px] font-semibold text-black mb-3">Notes du client</h2>
+      <p class="text-[13px] text-neutral-600 leading-relaxed">{{ appointment.clientNotes }}</p>
+    </div>
 
     <!-- Champs custom -->
-    <UCard v-if="appointment.customFieldValues?.length">
-      <template #header>
-        <h2 class="font-semibold">Informations complémentaires</h2>
-      </template>
-      <dl class="space-y-3 text-sm">
+    <div v-if="appointment.customFieldValues?.length" class="bg-white border border-neutral-200 rounded-lg p-5">
+      <h2 class="text-[13px] font-semibold text-black mb-4">Informations complémentaires</h2>
+      <dl class="space-y-3 text-[13px]">
         <div v-for="cfv in appointment.customFieldValues" :key="cfv.key">
-          <dt class="text-gray-500">{{ cfv.label }}</dt>
-          <dd class="font-medium">{{ cfv.value }}</dd>
+          <dt class="text-neutral-400 mb-0.5">{{ cfv.label }}</dt>
+          <dd class="font-medium text-black">{{ cfv.value }}</dd>
         </div>
       </dl>
-    </UCard>
+    </div>
 
     <!-- Motif de refus -->
-    <UAlert
-      v-if="appointment.rejectionReason"
-      color="red"
-      title="Motif de refus"
-      :description="appointment.rejectionReason"
-    />
+    <div v-if="appointment.rejectionReason" class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <p class="text-[12px] font-medium text-red-600 mb-1">Motif de refus</p>
+      <p class="text-[13px] text-red-700">{{ appointment.rejectionReason }}</p>
+    </div>
 
     <!-- Actions -->
-    <div class="flex flex-wrap gap-3" v-if="canAct">
-      <UButton
+    <div class="flex flex-wrap gap-2" v-if="canAct">
+      <button
         v-if="appointment.status === 'PENDING'"
-        color="green"
-        icon="i-heroicons-check"
-        :loading="actionLoading"
+        class="px-4 py-2 text-[13px] font-medium bg-black text-white rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer disabled:opacity-50"
+        :disabled="actionLoading"
         @click="$emit('confirm')"
       >
         Confirmer
-      </UButton>
+      </button>
 
-      <UButton
+      <button
         v-if="appointment.status === 'PENDING'"
-        color="red"
-        variant="outline"
-        icon="i-heroicons-x-mark"
-        :loading="actionLoading"
+        class="px-4 py-2 text-[13px] font-medium border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer disabled:opacity-50"
+        :disabled="actionLoading"
         @click="showRejectModal = true"
       >
         Refuser
-      </UButton>
+      </button>
 
-      <UButton
+      <button
         v-if="appointment.status === 'CONFIRMED'"
-        color="primary"
-        variant="outline"
-        icon="i-heroicons-check-circle"
-        :loading="actionLoading"
+        class="px-4 py-2 text-[13px] font-medium border border-neutral-200 text-black rounded-lg hover:bg-neutral-50 transition-colors cursor-pointer disabled:opacity-50"
+        :disabled="actionLoading"
         @click="$emit('complete')"
       >
         Marquer terminé
-      </UButton>
+      </button>
 
-      <UButton
+      <button
         v-if="appointment.status === 'CONFIRMED'"
-        color="orange"
-        variant="outline"
-        icon="i-heroicons-user-minus"
-        :loading="actionLoading"
+        class="px-4 py-2 text-[13px] font-medium border border-orange-200 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors cursor-pointer disabled:opacity-50"
+        :disabled="actionLoading"
         @click="$emit('no-show')"
       >
         No show
-      </UButton>
+      </button>
 
-      <UButton
-        color="red"
-        variant="ghost"
-        icon="i-heroicons-trash"
-        :loading="actionLoading"
+      <button
+        class="px-4 py-2 text-[13px] font-medium text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+        :disabled="actionLoading"
         @click="showDeleteConfirm = true"
       >
         Supprimer
-      </UButton>
+      </button>
     </div>
 
     <!-- Modal refus -->
     <UModal v-model="showRejectModal">
       <UCard>
         <template #header>
-          <h3 class="font-semibold">Refuser le rendez-vous</h3>
+          <h3 class="text-[15px] font-semibold text-black">Refuser le rendez-vous</h3>
         </template>
         <div class="space-y-4">
           <UFormGroup label="Motif (optionnel)">
@@ -148,9 +131,9 @@
     <UModal v-model="showDeleteConfirm">
       <UCard>
         <template #header>
-          <h3 class="font-semibold">Supprimer le rendez-vous</h3>
+          <h3 class="text-[15px] font-semibold text-black">Supprimer le rendez-vous</h3>
         </template>
-        <p class="text-sm text-gray-600">Cette action est irréversible.</p>
+        <p class="text-[13px] text-neutral-600">Cette action est irréversible.</p>
         <template #footer>
           <div class="flex gap-3 justify-end">
             <UButton variant="ghost" @click="showDeleteConfirm = false">Annuler</UButton>

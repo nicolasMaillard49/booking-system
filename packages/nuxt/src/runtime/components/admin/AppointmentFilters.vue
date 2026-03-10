@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-3">
+  <div class="flex flex-wrap gap-3 items-center">
     <USelect
       v-model="local.status"
       :options="statusOptions"
@@ -30,13 +30,13 @@
       @update:model-value="emit('change')"
     />
 
-    <UButton
-      variant="ghost"
-      icon="i-heroicons-x-mark"
+    <button
+      class="flex items-center gap-1.5 text-[13px] text-neutral-400 hover:text-black transition-colors cursor-pointer"
       @click="onReset"
     >
+      <UIcon name="i-heroicons-x-mark" class="text-sm" />
       Réinitialiser
-    </UButton>
+    </button>
   </div>
 </template>
 

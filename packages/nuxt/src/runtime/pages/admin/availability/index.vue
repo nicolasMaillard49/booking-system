@@ -1,34 +1,36 @@
 <template>
-  <div class="p-6 max-w-3xl">
-    <h1 class="text-2xl font-bold mb-8">Disponibilités</h1>
-
-    <div class="mb-10">
-      <h2 class="text-lg font-semibold mb-4">Horaires hebdomadaires</h2>
-      <BookingAdminAvailabilityWeekEditor
-        :rules="rules"
-        :loading="saving"
-        @save="onSaveRules"
-      />
-    </div>
-
-    <div>
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold">Exceptions & fermetures</h2>
-        <UButton size="sm" icon="i-heroicons-plus" @click="showExceptionModal = true">
-          Ajouter
-        </UButton>
+  <BookingAdminLayout title="Disponibilités">
+    <div class="max-w-3xl space-y-10">
+      <!-- Weekly schedule -->
+      <div>
+        <h2 class="text-[15px] font-semibold text-black mb-4">Horaires hebdomadaires</h2>
+        <BookingAdminAvailabilityWeekEditor
+          :rules="rules"
+          :loading="saving"
+          @save="onSaveRules"
+        />
       </div>
 
-      <BookingAdminExceptionsList
-        :exceptions="exceptions"
-        @delete="onDeleteException"
-      />
+      <!-- Exceptions -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-[15px] font-semibold text-black">Exceptions & fermetures</h2>
+          <UButton size="sm" color="black" icon="i-heroicons-plus" @click="showExceptionModal = true">
+            Ajouter
+          </UButton>
+        </div>
+
+        <BookingAdminExceptionsList
+          :exceptions="exceptions"
+          @delete="onDeleteException"
+        />
+      </div>
     </div>
 
     <UModal v-model="showExceptionModal">
       <UCard>
         <template #header>
-          <h3 class="font-semibold">Nouvelle exception</h3>
+          <h3 class="text-[15px] font-semibold text-black">Nouvelle exception</h3>
         </template>
         <BookingAdminExceptionForm
           :loading="saving"
@@ -37,7 +39,7 @@
         />
       </UCard>
     </UModal>
-  </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">

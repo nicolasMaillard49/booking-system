@@ -1,28 +1,38 @@
 <template>
-  <div class="max-w-2xl mx-auto py-12 px-4">
-    <UButton
-      variant="ghost"
-      icon="i-heroicons-arrow-left"
-      class="mb-6"
-      @click="goBack"
-    >
-      Retour
-    </UButton>
+  <div class="min-h-screen bg-white">
+    <div class="max-w-xl mx-auto py-10 px-5">
+      <button
+        class="flex items-center gap-1.5 text-[13px] font-medium text-neutral-500 hover:text-black transition-colors mb-8 cursor-pointer"
+        @click="goBack"
+      >
+        <UIcon name="i-heroicons-arrow-left" class="text-sm" />
+        Retour aux prestations
+      </button>
 
-    <div v-if="!bookingStore.selectedService">
-      <UAlert color="orange" title="Veuillez d'abord choisir une prestation" />
-    </div>
+      <div v-if="!bookingStore.selectedService">
+        <UAlert color="orange" variant="soft" icon="i-heroicons-exclamation-triangle" title="Veuillez d'abord choisir une prestation" />
+      </div>
 
-    <div v-else>
-      <h1 class="text-xl font-bold mb-1">{{ bookingStore.selectedService.name }}</h1>
-      <p class="text-gray-500 text-sm mb-8">
-        Durée : {{ bookingStore.selectedService.duration }} min
-      </p>
+      <div v-else>
+        <!-- Service info -->
+        <div class="mb-8">
+          <h1 class="text-[22px] font-semibold text-black tracking-[-0.02em] mb-1.5">{{ bookingStore.selectedService.name }}</h1>
+          <div class="flex items-center gap-3 text-[13px] text-neutral-500">
+            <span class="flex items-center gap-1.5">
+              <UIcon name="i-heroicons-clock" class="text-sm" />
+              {{ bookingStore.selectedService.duration }} min
+            </span>
+            <span v-if="bookingStore.selectedService.isPriceVisible && bookingStore.selectedService.price" class="flex items-center gap-1.5">
+              {{ formatPrice(bookingStore.selectedService.price) }}
+            </span>
+          </div>
+        </div>
 
-      <BookingSlotPicker
-        :service-id="bookingStore.selectedService.id"
-        @select="onSelectSlot"
-      />
+        <BookingSlotPicker
+          :service-id="bookingStore.selectedService.id"
+          @select="onSelectSlot"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -42,5 +52,9 @@ async function onSelectSlot(slot: string) {
 
 async function goBack() {
   await navigateTo(publicPrefix)
+}
+
+function formatPrice(price: number): string {
+  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(price)
 }
 </script>

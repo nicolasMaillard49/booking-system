@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
-    <UCard>
-      <template #header><h2 class="font-semibold">Informations générales</h2></template>
+    <div class="bg-white border border-neutral-200 rounded-lg p-5">
+      <h2 class="text-[14px] font-semibold text-black mb-4">Informations générales</h2>
       <div class="space-y-4">
         <UFormGroup label="Nom du business">
           <UInput v-model="form.businessName" />
@@ -15,22 +15,22 @@
         <UFormGroup label="Email de contact">
           <UInput v-model="form.email" type="email" />
         </UFormGroup>
-        <UFormGroup label="Description (markdown)">
+        <UFormGroup label="Description">
           <UTextarea v-model="form.description" :rows="4" />
         </UFormGroup>
-        <UFormGroup label="Consignes client (markdown)">
+        <UFormGroup label="Consignes client">
           <UTextarea v-model="form.instructions" :rows="4" />
         </UFormGroup>
       </div>
-    </UCard>
+    </div>
 
-    <UCard>
-      <template #header><h2 class="font-semibold">Réservations</h2></template>
+    <div class="bg-white border border-neutral-200 rounded-lg p-5">
+      <h2 class="text-[14px] font-semibold text-black mb-4">Réservations</h2>
       <div class="space-y-4">
         <UFormGroup label="Validation automatique">
           <div class="flex items-center gap-3">
             <UToggle v-model="form.autoConfirm" />
-            <span class="text-sm text-gray-500">
+            <span class="text-[13px] text-neutral-500">
               {{ form.autoConfirm ? 'Les RDV sont confirmés automatiquement' : 'Validation manuelle requise' }}
             </span>
           </div>
@@ -61,11 +61,15 @@
           <UInput v-model="form.timezone" placeholder="Europe/Paris" />
         </UFormGroup>
       </div>
-    </UCard>
+    </div>
 
-    <UButton block size="lg" :loading="saving" @click="$emit('save', form)">
-      Enregistrer les paramètres
-    </UButton>
+    <button
+      class="w-full py-3 bg-black text-white text-[14px] font-medium rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer disabled:opacity-50"
+      :disabled="saving"
+      @click="$emit('save', form)"
+    >
+      {{ saving ? 'Enregistrement...' : 'Enregistrer les paramètres' }}
+    </button>
   </div>
 </template>
 

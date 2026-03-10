@@ -1,112 +1,106 @@
 <template>
-  <div class="p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold">Calendrier</h1>
-
-      <div class="flex items-center gap-3">
-        <UButton
-          variant="ghost"
-          icon="i-heroicons-chevron-left"
+  <BookingAdminLayout title="Calendrier">
+    <template #actions>
+      <div class="flex items-center gap-2">
+        <button
+          class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition-colors cursor-pointer"
           @click="prevMonth"
-        />
-        <span class="font-medium w-36 text-center">{{ monthLabel }}</span>
-        <UButton
-          variant="ghost"
-          icon="i-heroicons-chevron-right"
+        >
+          <UIcon name="i-heroicons-chevron-left" class="text-neutral-600" />
+        </button>
+        <span class="font-medium w-40 text-center text-[13px] capitalize text-black">{{ monthLabel }}</span>
+        <button
+          class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition-colors cursor-pointer"
           @click="nextMonth"
-        />
+        >
+          <UIcon name="i-heroicons-chevron-right" class="text-neutral-600" />
+        </button>
       </div>
-    </div>
+    </template>
 
     <div v-if="loading" class="flex justify-center py-20">
-      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-3xl" />
+      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
     </div>
 
     <div v-else>
-      <!-- En-têtes jours -->
-      <div class="grid grid-cols-7 mb-2">
+      <!-- Day headers -->
+      <div class="grid grid-cols-7 mb-1">
         <div
           v-for="day in dayHeaders"
           :key="day"
-          class="text-center text-xs font-medium text-gray-500 py-2"
+          class="text-center text-[11px] font-medium text-neutral-400 uppercase tracking-wider py-3"
         >
           {{ day }}
         </div>
       </div>
 
-      <!-- Grille calendrier -->
-      <div class="grid grid-cols-7 gap-1">
-        <!-- Cellules vides avant le 1er du mois -->
-        <div v-for="n in firstDayOffset" :key="`empty-${n}`" />
+      <!-- Calendar grid -->
+      <div class="grid grid-cols-7 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
+        <div v-for="n in firstDayOffset" :key="`empty-${n}`" class="bg-neutral-50 min-h-[100px]" />
 
-        <!-- Jours du mois -->
         <div
           v-for="day in daysInMonth"
           :key="day"
-          class="min-h-20 border rounded-lg p-1 cursor-pointer hover:bg-gray-50 transition-colors"
-          :class="{
-            'bg-primary-50 border-primary-200': isToday(day),
-            'bg-gray-50': !getCalendarDay(day)?.count,
-          }"
+          class="bg-white min-h-[100px] p-2 cursor-pointer hover:bg-neutral-50 transition-colors"
           @click="onDayClick(day)"
         >
           <div
-            class="text-xs font-medium mb-1 text-right"
-            :class="isToday(day) ? 'text-primary-600' : 'text-gray-600'"
+            class="text-[12px] font-medium mb-1.5 w-6 h-6 flex items-center justify-center rounded-full"
+            :class="isToday(day) ? 'bg-black text-white' : 'text-neutral-500'"
           >
             {{ day }}
           </div>
 
-          <div v-if="getCalendarDay(day)?.count" class="space-y-1">
+          <div v-if="getDayAppointments(day).length" class="space-y-0.5">
             <div
-              v-for="appt in getCalendarDay(day)?.appointments?.slice(0, 3)"
+              v-for="appt in getDayAppointments(day).slice(0, 3)"
               :key="appt.id"
-              class="text-xs rounded px-1 py-0.5 truncate"
+              class="text-[11px] rounded px-1.5 py-0.5 truncate font-medium"
               :class="statusColors[appt.status]"
             >
               {{ formatTime(appt.startAt) }} {{ appt.clientLastName }}
             </div>
             <div
-              v-if="(getCalendarDay(day)?.count ?? 0) > 3"
-              class="text-xs text-gray-400 text-center"
+              v-if="getDayAppointments(day).length > 3"
+              class="text-[11px] text-neutral-400 text-center font-medium"
             >
-              +{{ (getCalendarDay(day)?.count ?? 0) - 3 }} autres
+              +{{ getDayAppointments(day).length - 3 }}
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Drawer détail du jour -->
+    <!-- Day detail modal -->
     <UModal v-model="showDayModal">
       <UCard>
         <template #header>
-          <h3 class="font-semibold">{{ selectedDayLabel }}</h3>
+          <h3 class="text-[15px] font-semibold text-black">{{ selectedDayLabel }}</h3>
         </template>
 
-        <div class="space-y-3">
+        <div class="space-y-2">
           <div
             v-for="appt in selectedDayAppointments"
             :key="appt.id"
-            class="flex items-center justify-between border rounded-lg p-3 cursor-pointer hover:bg-gray-50"
-            @click="navigateTo(`${adminPrefix}/appointments/${appt.id}`)"
+            class="flex items-center justify-between border border-neutral-200 rounded-lg p-3 cursor-pointer hover:bg-neutral-50 transition-colors"
+            @click="navigateTo(`${adminPrefix}/appointments/${appt.id}`); showDayModal = false"
           >
             <div>
-              <div class="text-sm font-medium">
+              <div class="text-[13px] font-medium text-black">
                 {{ formatTime(appt.startAt) }} — {{ appt.clientFirstName }} {{ appt.clientLastName }}
               </div>
-              <div class="text-xs text-gray-500 mt-0.5">{{ appt.serviceName }}</div>
+              <div class="text-[12px] text-neutral-400 mt-0.5">{{ appt.service?.name ?? '' }}</div>
             </div>
             <BookingSharedStatusBadge :status="appt.status" size="xs" />
           </div>
 
-          <div v-if="!selectedDayAppointments.length" class="text-center py-6 text-gray-400 text-sm">
+          <div v-if="!selectedDayAppointments.length" class="text-center py-8 text-neutral-400 text-[13px]">
             Aucun rendez-vous ce jour
           </div>
         </div>
       </UCard>
     </UModal>
-  </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">
@@ -119,7 +113,7 @@ const config = useRuntimeConfig()
 const adminPrefix = (config.public.booking as any).adminPrefix
 
 const loading = ref(false)
-const calendarData = ref<any[]>([])
+const appointments = ref<any[]>([])
 const currentDate = ref(new Date())
 const showDayModal = ref(false)
 const selectedDay = ref<number | null>(null)
@@ -127,17 +121,13 @@ const selectedDay = ref<number | null>(null)
 const dayHeaders = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 
 const statusColors: Record<string, string> = {
-  PENDING: 'bg-yellow-100 text-yellow-700',
-  CONFIRMED: 'bg-green-100 text-green-700',
-  CANCELLED: 'bg-gray-100 text-gray-500',
-  REJECTED: 'bg-red-100 text-red-600',
-  COMPLETED: 'bg-blue-100 text-blue-600',
-  NO_SHOW: 'bg-orange-100 text-orange-600',
+  PENDING: 'bg-amber-50 text-amber-700',
+  CONFIRMED: 'bg-emerald-50 text-emerald-700',
+  CANCELLED: 'bg-neutral-100 text-neutral-500',
+  REJECTED: 'bg-red-50 text-red-600',
+  COMPLETED: 'bg-blue-50 text-blue-700',
+  NO_SHOW: 'bg-orange-50 text-orange-700',
 }
-
-const currentMonth = computed(() =>
-  `${currentDate.value.getFullYear()}-${String(currentDate.value.getMonth() + 1).padStart(2, '0')}`
-)
 
 const monthLabel = computed(() =>
   currentDate.value.toLocaleString('fr-FR', { month: 'long', year: 'numeric' })
@@ -149,7 +139,6 @@ const daysInMonth = computed(() => {
   return new Date(year, month + 1, 0).getDate()
 })
 
-// Offset pour aligner le 1er jour (0=Lundi)
 const firstDayOffset = computed(() => {
   const year = currentDate.value.getFullYear()
   const month = currentDate.value.getMonth()
@@ -165,12 +154,15 @@ const selectedDayLabel = computed(() => {
 
 const selectedDayAppointments = computed(() => {
   if (!selectedDay.value) return []
-  return getCalendarDay(selectedDay.value)?.appointments ?? []
+  return getDayAppointments(selectedDay.value)
 })
 
-function getCalendarDay(day: number) {
+function getDayAppointments(day: number): any[] {
   const dateStr = `${currentDate.value.getFullYear()}-${String(currentDate.value.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-  return calendarData.value.find(d => d.date === dateStr)
+  return appointments.value.filter(a => {
+    const apptDate = new Date(a.startAt).toISOString().split('T')[0]
+    return apptDate === dateStr
+  })
 }
 
 function isToday(day: number): boolean {
@@ -200,8 +192,17 @@ async function nextMonth() {
 async function fetchCalendar() {
   loading.value = true
   try {
-    calendarData.value = await api(`/admin/dashboard/calendar?month=${currentMonth.value}`)
-  } catch {}
+    const year = currentDate.value.getFullYear()
+    const month = currentDate.value.getMonth()
+    const dateFrom = `${year}-${String(month + 1).padStart(2, '0')}-01`
+    const lastDay = new Date(year, month + 1, 0).getDate()
+    const dateTo = `${year}-${String(month + 1).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
+
+    const result = await api<any>(`/admin/appointments?dateFrom=${dateFrom}&dateTo=${dateTo}&limit=500`)
+    appointments.value = result.data ?? []
+  } catch {
+    appointments.value = []
+  }
   loading.value = false
 }
 

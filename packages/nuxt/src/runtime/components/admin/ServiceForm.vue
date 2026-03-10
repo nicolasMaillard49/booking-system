@@ -38,7 +38,7 @@
 
     <div class="flex gap-3 justify-end pt-2">
       <UButton variant="ghost" @click="$emit('cancel')">Annuler</UButton>
-      <UButton :loading="loading" @click="onSave">Enregistrer</UButton>
+      <UButton color="black" :loading="loading" @click="onSave">Enregistrer</UButton>
     </div>
   </div>
 </template>
@@ -69,7 +69,6 @@ const form = reactive({
 
 const errors = reactive<Record<string, string>>({})
 
-// Pré-remplir si édition
 watch(() => props.service, (service) => {
   if (service) Object.assign(form, service)
 }, { immediate: true })

@@ -11,6 +11,7 @@ services:
       POSTGRES_PASSWORD: booking123
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-playground.sql
 
 volumes:
   pgdata:

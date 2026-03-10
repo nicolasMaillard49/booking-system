@@ -5,7 +5,8 @@
     "moduleResolution": "bundler",
     "target": "ESNext",
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "declarationMap": false
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

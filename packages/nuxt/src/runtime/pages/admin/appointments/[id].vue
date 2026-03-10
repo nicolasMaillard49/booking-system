@@ -1,29 +1,32 @@
 <template>
-  <div class="p-6 max-w-3xl">
-    <UButton
-      variant="ghost"
-      icon="i-heroicons-arrow-left"
-      class="mb-6"
-      @click="navigateTo(`${adminPrefix}/appointments`)"
-    >
-      Retour
-    </UButton>
+  <BookingAdminLayout title="Détail du rendez-vous">
+    <template #actions>
+      <button
+        class="flex items-center gap-1.5 text-[13px] font-medium text-neutral-500 hover:text-black transition-colors cursor-pointer"
+        @click="navigateTo(`${adminPrefix}/appointments`)"
+      >
+        <UIcon name="i-heroicons-arrow-left" class="text-sm" />
+        Retour
+      </button>
+    </template>
 
     <div v-if="loading" class="flex justify-center py-20">
-      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-3xl" />
+      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
     </div>
 
-    <BookingAdminAppointmentDetail
-      v-else-if="appointment"
-      :appointment="appointment"
-      :action-loading="actionLoading"
-      @confirm="onConfirm"
-      @reject="onReject"
-      @complete="onComplete"
-      @no-show="onNoShow"
-      @delete="onDelete"
-    />
-  </div>
+    <div v-else class="max-w-3xl">
+      <BookingAdminAppointmentDetail
+        v-if="appointment"
+        :appointment="appointment"
+        :action-loading="actionLoading"
+        @confirm="onConfirm"
+        @reject="onReject"
+        @complete="onComplete"
+        @no-show="onNoShow"
+        @delete="onDelete"
+      />
+    </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">

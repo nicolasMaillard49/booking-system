@@ -55,9 +55,10 @@
           :name="field.key"
           :value="option.value"
           :checked="modelValue === option.value"
+          class="accent-black"
           @change="$emit('update:modelValue', option.value)"
         />
-        <span class="text-sm">{{ option.label }}</span>
+        <span class="text-[13px] text-black">{{ option.label }}</span>
       </label>
     </div>
 
@@ -72,9 +73,10 @@
           type="checkbox"
           :value="option.value"
           :checked="modelValue?.includes(option.value)"
+          class="accent-black"
           @change="onCheckboxChange(option.value)"
         />
-        <span class="text-sm">{{ option.label }}</span>
+        <span class="text-[13px] text-black">{{ option.label }}</span>
       </label>
     </div>
   </UFormGroup>
@@ -93,7 +95,6 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-// Pour CHECKBOX : on sérialise les valeurs sélectionnées en JSON
 function onCheckboxChange(value: string) {
   const current: string[] = props.modelValue ? JSON.parse(props.modelValue) : []
   const idx = current.indexOf(value)

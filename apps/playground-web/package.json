@@ -12,7 +12,7 @@
     "@booking/shared": "workspace:*",
     "nuxt": "^3.14.0",
     "@nuxt/ui": "^2.20.0",
-    "@pinia/nuxt": "^0.9.0",
+    "@pinia/nuxt": "^0.10.0",
     "pinia": "^2.3.0"
   }
 }

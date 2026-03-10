@@ -1,13 +1,13 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-2">
     <div
       v-for="(rule, index) in localRules"
       :key="rule.dayOfWeek"
-      class="border rounded-xl p-4"
+      class="bg-white border border-neutral-200 rounded-lg p-4"
     >
       <div class="flex items-center gap-4">
         <!-- Jour -->
-        <div class="w-24 font-medium text-sm">{{ dayLabels[rule.dayOfWeek] }}</div>
+        <div class="w-24 text-[13px] font-medium text-black">{{ dayLabels[rule.dayOfWeek] }}</div>
 
         <!-- Actif/Inactif -->
         <UToggle v-model="rule.isActive" />
@@ -17,27 +17,25 @@
           <input
             v-model="rule.openTime"
             type="time"
-            class="border rounded px-2 py-1 text-sm"
+            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-black transition-colors"
           />
-          <span class="text-gray-400 text-sm">→</span>
+          <span class="text-neutral-300 text-[13px]">-</span>
           <input
             v-model="rule.closeTime"
             type="time"
-            class="border rounded px-2 py-1 text-sm"
+            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-black transition-colors"
           />
 
-          <!-- Ajouter une pause -->
-          <UButton
-            size="xs"
-            variant="ghost"
-            icon="i-heroicons-plus"
+          <button
+            class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer ml-2"
             @click="addBreak(index)"
           >
+            <UIcon name="i-heroicons-plus" class="text-sm" />
             Pause
-          </UButton>
+          </button>
         </template>
 
-        <span v-else class="text-sm text-gray-400">Fermé</span>
+        <span v-else class="text-[13px] text-neutral-400">Fermé</span>
       </div>
 
       <!-- Pauses -->
@@ -50,24 +48,27 @@
           :key="bIndex"
           class="flex items-center gap-2"
         >
-          <span class="text-xs text-gray-500">Pause</span>
-          <input v-model="brk.startTime" type="time" class="border rounded px-2 py-1 text-xs" />
-          <span class="text-gray-400 text-xs">→</span>
-          <input v-model="brk.endTime" type="time" class="border rounded px-2 py-1 text-xs" />
-          <UButton
-            size="xs"
-            variant="ghost"
-            color="red"
-            icon="i-heroicons-x-mark"
+          <span class="text-[11px] text-neutral-400 w-12">Pause</span>
+          <input v-model="brk.startTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:border-black transition-colors" />
+          <span class="text-neutral-300 text-[12px]">-</span>
+          <input v-model="brk.endTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:border-black transition-colors" />
+          <button
+            class="w-6 h-6 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer"
             @click="removeBreak(index, bIndex)"
-          />
+          >
+            <UIcon name="i-heroicons-x-mark" class="text-red-400 text-sm" />
+          </button>
         </div>
       </div>
     </div>
 
-    <UButton block :loading="loading" @click="$emit('save', localRules)">
-      Enregistrer les horaires
-    </UButton>
+    <button
+      class="w-full py-3 bg-black text-white text-[14px] font-medium rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer disabled:opacity-50 mt-4"
+      :disabled="loading"
+      @click="$emit('save', localRules)"
+    >
+      {{ loading ? 'Enregistrement...' : 'Enregistrer les horaires' }}
+    </button>
   </div>
 </template>
 
@@ -85,7 +86,6 @@ defineEmits<{
 
 const dayLabels = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
 
-// Initialiser les 7 jours — même si certains n'ont pas de règle en DB
 const localRules = ref(
   Array.from({ length: 7 }, (_, i) => {
     const existing = props.rules.find(r => r.dayOfWeek === i)

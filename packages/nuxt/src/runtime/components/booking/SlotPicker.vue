@@ -1,50 +1,50 @@
 <template>
   <div>
-    <!-- Sélecteur de date -->
-    <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 mb-2">
+    <!-- Date picker -->
+    <div class="mb-8">
+      <label class="block text-[12px] font-medium text-neutral-400 uppercase tracking-wider mb-2">
         Choisissez une date
       </label>
-      <input
-        v-model="selectedDate"
-        type="date"
-        :min="minDate"
-        :max="maxDate"
-        class="border rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary-500"
-        @change="onDateChange"
-      />
+      <div class="relative">
+        <input
+          v-model="selectedDate"
+          type="date"
+          :min="minDate"
+          :max="maxDate"
+          class="w-full border border-neutral-200 rounded-lg px-4 py-3 text-[14px] bg-white focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all duration-200"
+          @change="onDateChange"
+        />
+      </div>
     </div>
 
-    <!-- Créneaux disponibles -->
+    <!-- Slots -->
     <div v-if="selectedDate">
-      <label class="block text-sm font-medium text-gray-700 mb-3">
+      <label class="block text-[12px] font-medium text-neutral-400 uppercase tracking-wider mb-3">
         Créneaux disponibles
       </label>
 
-      <div v-if="loading" class="flex justify-center py-8">
-        <UIcon name="i-heroicons-arrow-path" class="animate-spin text-2xl text-gray-400" />
+      <!-- Loading skeleton -->
+      <div v-if="loading" class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+        <div v-for="i in 8" :key="i" class="h-11 bg-neutral-100 rounded-lg animate-pulse" />
       </div>
 
       <div v-else-if="error">
-        <UAlert color="red" :title="error" />
+        <UAlert color="red" variant="soft" icon="i-heroicons-exclamation-circle" :title="error" />
       </div>
 
-      <div v-else-if="slots.length === 0">
-        <UAlert
-          color="orange"
-          icon="i-heroicons-calendar-x-mark"
-          title="Aucun créneau disponible pour cette date"
-        />
+      <div v-else-if="slots.length === 0" class="text-center py-10 border border-neutral-200 rounded-lg">
+        <p class="text-[13px] text-neutral-400">Aucun créneau disponible</p>
+        <p class="text-[12px] text-neutral-300 mt-1">Essayez une autre date</p>
       </div>
 
       <div v-else class="grid grid-cols-3 sm:grid-cols-4 gap-2">
         <button
           v-for="slot in slots"
           :key="slot"
-          class="border rounded-lg py-2 px-3 text-sm font-medium transition-all"
+          class="rounded-lg py-2.5 px-3 text-[13px] font-medium transition-all duration-200 cursor-pointer border"
           :class="selectedSlot === slot
-            ? 'bg-primary-500 text-white border-primary-500'
-            : 'hover:border-primary-400 hover:text-primary-600'"
+            ? 'bg-black text-white border-black'
+            : 'bg-white border-neutral-200 text-neutral-700 hover:border-black hover:text-black'"
           @click="onSelectSlot(slot)"
         >
           {{ formatTime(slot) }}

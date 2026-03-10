@@ -1,13 +1,9 @@
 <template>
-  <div class="p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold">Rendez-vous</h1>
-    </div>
-
+  <BookingAdminLayout title="Rendez-vous">
     <BookingAdminAppointmentFilters v-model="filters" class="mb-6" @change="onFilter" />
 
     <div v-if="loading" class="flex justify-center py-20">
-      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-3xl" />
+      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
     </div>
 
     <div v-else>
@@ -25,7 +21,7 @@
         />
       </div>
     </div>
-  </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">

@@ -1,62 +1,65 @@
 <template>
-  <div class="p-6 max-w-3xl">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold">Prestations</h1>
-      <UButton icon="i-heroicons-plus" @click="showCreateModal = true">
+  <BookingAdminLayout title="Prestations">
+    <template #actions>
+      <UButton color="black" size="sm" icon="i-heroicons-plus" @click="showCreateModal = true">
         Nouvelle prestation
       </UButton>
-    </div>
+    </template>
 
     <div v-if="loading" class="flex justify-center py-20">
-      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-3xl" />
+      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
     </div>
 
-    <div v-else class="space-y-3">
+    <div v-else class="max-w-3xl space-y-3">
       <div
         v-for="service in services"
         :key="service.id"
-        class="border rounded-xl p-4 flex items-center justify-between"
+        class="bg-white border border-neutral-200 rounded-lg p-5 hover:border-neutral-300 transition-colors"
       >
-        <div>
-          <div class="font-medium">{{ service.name }}</div>
-          <div class="text-sm text-gray-500 mt-1">
-            {{ service.duration }} min
-            <span v-if="service.isPriceVisible && service.price">
-              · {{ formatPrice(service.price) }}
-            </span>
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-[14px] font-semibold text-black">{{ service.name }}</div>
+            <div class="text-[13px] text-neutral-500 mt-1">
+              {{ service.duration }} min
+              <span v-if="service.isPriceVisible && service.price">
+                · {{ formatPrice(service.price) }}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div class="flex items-center gap-2">
-          <UBadge :color="service.isActive ? 'green' : 'gray'">
-            {{ service.isActive ? 'Actif' : 'Inactif' }}
-          </UBadge>
-          <UButton
-            variant="ghost"
-            icon="i-heroicons-pencil"
-            size="sm"
-            @click="onEdit(service)"
-          />
-          <UButton
-            variant="ghost"
-            icon="i-heroicons-trash"
-            size="sm"
-            color="red"
-            @click="onDelete(service.id)"
-          />
+          <div class="flex items-center gap-2">
+            <span
+              class="text-[11px] font-medium px-2 py-0.5 rounded-full"
+              :class="service.isActive ? 'bg-emerald-50 text-emerald-700' : 'bg-neutral-100 text-neutral-500'"
+            >
+              {{ service.isActive ? 'Actif' : 'Inactif' }}
+            </span>
+            <button
+              class="w-7 h-7 rounded-md flex items-center justify-center hover:bg-neutral-100 transition-colors cursor-pointer"
+              @click="onEdit(service)"
+            >
+              <UIcon name="i-heroicons-pencil" class="text-[14px] text-neutral-400" />
+            </button>
+            <button
+              class="w-7 h-7 rounded-md flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer"
+              @click="onDelete(service.id)"
+            >
+              <UIcon name="i-heroicons-trash" class="text-[14px] text-red-400" />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div v-if="services.length === 0" class="text-center py-12 text-gray-400">
+      <div v-if="services.length === 0" class="text-center py-16 text-neutral-400 text-[13px]">
         Aucune prestation créée
       </div>
     </div>
 
-    <!-- Modal création/édition -->
+    <!-- Modal create/edit -->
     <UModal v-model="showCreateModal" @close="selectedService = null">
       <UCard>
         <template #header>
-          <h3 class="font-semibold">
+          <h3 class="text-[15px] font-semibold text-black">
             {{ selectedService ? 'Modifier la prestation' : 'Nouvelle prestation' }}
           </h3>
         </template>
@@ -69,7 +72,7 @@
         />
       </UCard>
     </UModal>
-  </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">

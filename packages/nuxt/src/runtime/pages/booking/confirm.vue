@@ -1,18 +1,24 @@
 <template>
-  <div class="max-w-2xl mx-auto py-12 px-4">
-    <UButton variant="ghost" icon="i-heroicons-arrow-left" class="mb-6" @click="bookingStore.goBack()">
-      Retour
-    </UButton>
+  <div class="min-h-screen bg-white">
+    <div class="max-w-xl mx-auto py-10 px-5">
+      <button
+        class="flex items-center gap-1.5 text-[13px] font-medium text-neutral-500 hover:text-black transition-colors mb-8 cursor-pointer"
+        @click="bookingStore.goBack()"
+      >
+        <UIcon name="i-heroicons-arrow-left" class="text-sm" />
+        Retour
+      </button>
 
-    <h1 class="text-xl font-bold mb-8">Vos informations</h1>
+      <h1 class="text-[22px] font-semibold text-black tracking-[-0.02em] mb-8">Vos informations</h1>
 
-    <BookingBookingForm
-      :service="bookingStore.selectedService!"
-      :slot="bookingStore.selectedSlot!"
-      :loading="loading"
-      :error="error"
-      @submit="onSubmit"
-    />
+      <BookingBookingForm
+        :service="bookingStore.selectedService!"
+        :slot="bookingStore.selectedSlot!"
+        :loading="loading"
+        :error="error"
+        @submit="onSubmit"
+      />
+    </div>
   </div>
 </template>
 
@@ -44,7 +50,7 @@ async function onSubmit(formData: any) {
         },
       },
     )
-    bookingStore.setSuccess(result.id, result.magicToken)
+    bookingStore.setSuccess(result.id, result.magicToken, result.status)
     await navigateTo(`${publicPrefix}/success`)
   } catch (e: any) {
     error.value = e?.data?.message ?? 'Une erreur est survenue'

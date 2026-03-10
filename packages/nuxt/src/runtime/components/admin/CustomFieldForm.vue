@@ -19,15 +19,24 @@
 
     <!-- Options pour SELECT/RADIO/CHECKBOX -->
     <div v-if="needsOptions">
-      <label class="block text-sm font-medium mb-2">Options</label>
+      <label class="block text-[13px] font-medium text-black mb-2">Options</label>
       <div v-for="(opt, i) in form.options" :key="i" class="flex gap-2 mb-2">
         <UInput v-model="opt.value" placeholder="valeur" class="w-1/2" />
         <UInput v-model="opt.label" placeholder="label affiché" class="w-1/2" />
-        <UButton variant="ghost" color="red" icon="i-heroicons-x-mark" @click="removeOption(i)" />
+        <button
+          class="w-7 h-7 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer shrink-0"
+          @click="removeOption(i)"
+        >
+          <UIcon name="i-heroicons-x-mark" class="text-red-400 text-sm" />
+        </button>
       </div>
-      <UButton size="xs" variant="outline" icon="i-heroicons-plus" @click="addOption">
+      <button
+        class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer"
+        @click="addOption"
+      >
+        <UIcon name="i-heroicons-plus" class="text-sm" />
         Ajouter une option
-      </UButton>
+      </button>
     </div>
 
     <UFormGroup label="Placeholder">
@@ -45,7 +54,7 @@
 
     <div class="flex gap-3 justify-end">
       <UButton variant="ghost" @click="$emit('cancel')">Annuler</UButton>
-      <UButton :loading="loading" @click="onSave">Enregistrer</UButton>
+      <UButton color="black" :loading="loading" @click="onSave">Enregistrer</UButton>
     </div>
   </div>
 </template>

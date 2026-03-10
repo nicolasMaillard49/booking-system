@@ -30,7 +30,7 @@
 
     <div class="flex gap-3 justify-end">
       <UButton variant="ghost" @click="$emit('cancel')">Annuler</UButton>
-      <UButton :loading="loading" @click="$emit('save', form)">Enregistrer</UButton>
+      <UButton color="black" :loading="loading" @click="$emit('save', form)">Enregistrer</UButton>
     </div>
   </div>
 </template>

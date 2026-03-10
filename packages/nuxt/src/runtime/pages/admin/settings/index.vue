@@ -1,18 +1,18 @@
 <template>
-  <div class="p-6 max-w-2xl">
-    <h1 class="text-2xl font-bold mb-8">Paramètres généraux</h1>
-
+  <BookingAdminLayout title="Paramètres généraux">
     <div v-if="loading" class="flex justify-center py-20">
-      <UIcon name="i-heroicons-arrow-path" class="animate-spin text-3xl" />
+      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
     </div>
 
-    <BookingAdminSettingsForm
-      v-else-if="settings"
-      :settings="settings"
-      :saving="saving"
-      @save="onSave"
-    />
-  </div>
+    <div v-else class="max-w-2xl">
+      <BookingAdminSettingsForm
+        v-if="settings"
+        :settings="settings"
+        :saving="saving"
+        @save="onSave"
+      />
+    </div>
+  </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">
