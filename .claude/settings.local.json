@@ -24,21 +24,7 @@
       "Read(//tmp/**)",
       "Bash(npx nuxt-module-build:*)",
       "Bash(kill:*)",
-      "Bash(find \"C:\\\\Users\\\\n.maillard\\\\VueJS\\\\booking-system\\\\packages\\\\nuxt\" -type f -name \"*.ts\" -o -name \"*.js\" -o -name \"*.json\" | grep -E \"\\\\.\\(ts|js|json\\)$\" | head -30)",
-      "Bash(cd \"C:/Users/n.maillard/VueJS/booking-system\" && docker compose down -v)",
-      "Bash(cd \"C:/Users/n.maillard/VueJS/booking-system\" && docker compose up -d)",
-      "Read(//c/Users/n.maillard/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.0.1/**)",
-      "Bash(python scripts/search.py \"booking appointment service professional elegant modern\" --design-system -p \"Booking System\")",
-      "Bash(cd \"C:/Users/n.maillard/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.0.1\" && python src/ui-ux-pro-max/scripts/search.py \"booking appointment service professional elegant modern\" --design-system -p \"Booking System\")",
-      "Bash(cd \"C:/Users/n.maillard/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.0.1\" && python src/ui-ux-pro-max/scripts/search.py \"booking appointment scheduling service professional modern clean\" --design-system -p \"Booking System\" -f markdown)",
-      "Bash(cd \"C:/Users/n.maillard/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.0.1\" && python src/ui-ux-pro-max/scripts/search.py \"form calendar card dashboard\" --stack vue)",
-      "Bash(cd \"C:/Users/n.maillard/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.0.1\" && python src/ui-ux-pro-max/scripts/search.py \"loading animation form accessibility\" --domain ux)",
-      "Bash(npm view:*)",
-      "Bash(npm info:*)",
-      "Bash(where node:*)",
-      "Bash(export PATH=\"/c/nvm4w/nodejs:$PATH\" && pnpm run build 2>&1 | tail -40)",
-      "Bash(export PATH=\"/c/nvm4w/nodejs:$PATH\" && pnpm run build 2>&1)",
-      "Bash(export PATH=\"/c/nvm4w/nodejs:$PATH\" && npx turbo build 2>&1)"
+      "Bash(gh auth:*)"
     ]
   }
 }
