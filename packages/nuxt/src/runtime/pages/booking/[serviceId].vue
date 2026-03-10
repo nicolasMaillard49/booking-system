@@ -1,33 +1,61 @@
 <template>
   <div class="min-h-screen bg-white">
-    <div class="max-w-xl mx-auto py-10 px-5">
-      <button
-        class="flex items-center gap-1.5 text-[13px] font-medium text-neutral-500 hover:text-black transition-colors mb-8 cursor-pointer"
-        @click="goBack"
-      >
-        <UIcon name="i-heroicons-arrow-left" class="text-sm" />
-        Retour aux prestations
-      </button>
+    <!-- Header -->
+    <div class="sticky top-0 z-40 bg-white border-b border-gray-200 backdrop-blur-sm">
+      <div class="container flex items-center justify-between h-16">
+        <button
+          class="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+          @click="goBack"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Retour aux prestations
+        </button>
+      </div>
+    </div>
 
-      <div v-if="!bookingStore.selectedService">
-        <UAlert color="orange" variant="soft" icon="i-heroicons-exclamation-triangle" title="Veuillez d'abord choisir une prestation" />
+    <!-- Main Content -->
+    <div class="container py-12">
+      <!-- Error State -->
+      <div v-if="!bookingStore.selectedService" class="text-center py-20">
+        <div class="w-16 h-16 rounded-xl bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">Sélection requise</h2>
+        <p class="text-gray-600 mb-6">Veuillez d'abord choisir une prestation</p>
+        <button class="btn btn-primary" @click="goBack">
+          Choisir une prestation
+        </button>
       </div>
 
-      <div v-else>
-        <!-- Service info -->
-        <div class="mb-8">
-          <h1 class="text-[22px] font-semibold text-black tracking-[-0.02em] mb-1.5">{{ bookingStore.selectedService.name }}</h1>
-          <div class="flex items-center gap-3 text-[13px] text-neutral-500">
-            <span class="flex items-center gap-1.5">
-              <UIcon name="i-heroicons-clock" class="text-sm" />
-              {{ bookingStore.selectedService.duration }} min
-            </span>
-            <span v-if="bookingStore.selectedService.isPriceVisible && bookingStore.selectedService.price" class="flex items-center gap-1.5">
-              {{ formatPrice(bookingStore.selectedService.price) }}
-            </span>
+      <!-- Booking Flow -->
+      <div v-else class="max-w-2xl mx-auto">
+        <!-- Service Summary -->
+        <div class="mb-10">
+          <div class="card p-6 border-2 border-blue-500 bg-blue-50">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <h1 class="text-2xl font-bold text-gray-900">{{ bookingStore.selectedService.name }}</h1>
+                <div class="flex gap-4 mt-3 text-sm text-gray-600">
+                  <span>{{ bookingStore.selectedService.duration }} min</span>
+                  <span v-if="bookingStore.selectedService.isPriceVisible && bookingStore.selectedService.price">
+                    {{ formatPrice(bookingStore.selectedService.price) }}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Slot Picker -->
         <BookingSlotPicker
           :service-id="bookingStore.selectedService.id"
           @select="onSelectSlot"

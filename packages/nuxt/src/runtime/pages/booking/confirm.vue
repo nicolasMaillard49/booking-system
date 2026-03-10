@@ -1,15 +1,39 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <div class="max-w-xl mx-auto py-10 px-5">
-      <button
-        class="flex items-center gap-1.5 text-[13px] font-medium text-neutral-500 hover:text-black transition-colors mb-8 cursor-pointer"
-        @click="bookingStore.goBack()"
-      >
-        <UIcon name="i-heroicons-arrow-left" class="text-sm" />
-        Retour
-      </button>
+  <div class="min-h-screen bg-zinc-50">
+    <!-- Header -->
+    <div class="bg-white border-b border-zinc-200 sticky top-0 z-10">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 py-4">
+        <button
+          class="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
+          @click="bookingStore.goBack()"
+        >
+          <UIcon name="i-heroicons-arrow-left" class="w-4 h-4" />
+          Retour
+        </button>
+      </div>
+    </div>
 
-      <h1 class="text-[22px] font-semibold text-black tracking-[-0.02em] mb-8">Vos informations</h1>
+    <!-- Main Content -->
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+      <!-- Step Indicator -->
+      <div class="flex items-center gap-2 mb-8">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center text-sm font-semibold">✓</div>
+          <span class="text-sm font-medium text-zinc-900">Prestation</span>
+        </div>
+        <div class="flex-1 h-px bg-zinc-900" />
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center text-sm font-semibold">✓</div>
+          <span class="text-sm font-medium text-zinc-900">Créneau</span>
+        </div>
+        <div class="flex-1 h-px bg-zinc-900" />
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center text-sm font-semibold">3</div>
+          <span class="text-sm font-medium text-zinc-900">Confirmation</span>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-zinc-900 mb-6">Vos informations</h1>
 
       <BookingBookingForm
         :service="bookingStore.selectedService!"
