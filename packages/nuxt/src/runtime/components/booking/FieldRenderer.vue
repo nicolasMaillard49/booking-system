@@ -1,47 +1,65 @@
 <template>
-  <UFormGroup :label="`${field.label}${field.isRequired ? ' *' : ''}`" :error="error">
+  <div>
+    <!-- Label -->
+    <label class="block text-sm font-medium text-zinc-700 mb-2">
+      {{ field.label }}{{ field.isRequired ? ' *' : '' }}
+    </label>
+
     <!-- TEXT -->
-    <UInput
+    <input
       v-if="field.type === 'TEXT'"
-      :model-value="modelValue"
+      :value="modelValue"
+      type="text"
       :placeholder="field.placeholder ?? ''"
-      @update:model-value="$emit('update:modelValue', $event)"
+      class="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+      :class="error ? 'border-red-300' : 'border-zinc-200'"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
 
     <!-- TEXTAREA -->
-    <UTextarea
+    <textarea
       v-else-if="field.type === 'TEXTAREA'"
-      :model-value="modelValue"
+      :value="modelValue"
       :placeholder="field.placeholder ?? ''"
-      @update:model-value="$emit('update:modelValue', $event)"
+      class="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all resize-none"
+      :class="error ? 'border-red-300' : 'border-zinc-200'"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
 
     <!-- NUMBER -->
-    <UInput
+    <input
       v-else-if="field.type === 'NUMBER'"
       type="number"
-      :model-value="modelValue"
+      :value="modelValue"
       :placeholder="field.placeholder ?? ''"
-      @update:model-value="$emit('update:modelValue', $event)"
+      class="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+      :class="error ? 'border-red-300' : 'border-zinc-200'"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
 
     <!-- DATE -->
-    <UInput
+    <input
       v-else-if="field.type === 'DATE'"
       type="date"
-      :model-value="modelValue"
-      @update:model-value="$emit('update:modelValue', $event)"
+      :value="modelValue"
+      class="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+      :class="error ? 'border-red-300' : 'border-zinc-200'"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
 
     <!-- SELECT -->
-    <USelect
+    <select
       v-else-if="field.type === 'SELECT'"
-      :model-value="modelValue"
-      :options="field.options ?? []"
-      option-attribute="label"
-      value-attribute="value"
-      @update:model-value="$emit('update:modelValue', $event)"
-    />
+      :value="modelValue"
+      class="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+      :class="error ? 'border-red-300' : 'border-zinc-200'"
+      @change="$emit('update:modelValue', $event.target.value)"
+    >
+      <option value="">Sélectionner une option</option>
+      <option v-for="option in field.options" :key="option.value" :value="option.value">
+        {{ option.label }}
+      </option>
+    </select>
 
     <!-- RADIO -->
     <div v-else-if="field.type === 'RADIO'" class="space-y-2">
@@ -55,7 +73,7 @@
           :name="field.key"
           :value="option.value"
           :checked="modelValue === option.value"
-          class="accent-black"
+          class="accent-zinc-900"
           @change="$emit('update:modelValue', option.value)"
         />
         <span class="text-[13px] text-black">{{ option.label }}</span>
@@ -73,13 +91,16 @@
           type="checkbox"
           :value="option.value"
           :checked="modelValue?.includes(option.value)"
-          class="accent-black"
+          class="accent-zinc-900"
           @change="onCheckboxChange(option.value)"
         />
         <span class="text-[13px] text-black">{{ option.label }}</span>
       </label>
     </div>
-  </UFormGroup>
+
+    <!-- Error message -->
+    <p v-if="error" class="text-sm text-red-600 mt-1">{{ error }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">

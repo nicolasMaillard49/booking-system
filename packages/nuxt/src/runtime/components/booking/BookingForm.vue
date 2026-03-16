@@ -4,7 +4,9 @@
     <div class="bg-zinc-900 text-white rounded-xl p-5">
       <div class="flex items-start gap-4">
         <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-          <UIcon name="i-heroicons-calendar-days" class="w-6 h-6" />
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
         </div>
         <div class="flex-1">
           <h3 class="font-semibold text-lg">{{ service.name }}</h3>
@@ -16,7 +18,9 @@
     <!-- Contact Section -->
     <div class="bg-white border border-zinc-200 rounded-xl p-5">
       <h3 class="text-sm font-semibold text-zinc-900 uppercase tracking-wider mb-5 flex items-center gap-2">
-        <UIcon name="i-heroicons-user" class="w-4 h-4" />
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
         Vos coordonnées
       </h3>
 
@@ -28,7 +32,9 @@
               Prénom <span class="text-red-500">*</span>
             </label>
             <div class="relative">
-              <UIcon name="i-heroicons-user" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
               <input
                 v-model="form.clientFirstName"
                 type="text"
@@ -45,7 +51,9 @@
               Nom <span class="text-red-500">*</span>
             </label>
             <div class="relative">
-              <UIcon name="i-heroicons-user-circle" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
               <input
                 v-model="form.clientLastName"
                 type="text"
@@ -64,7 +72,9 @@
             Email <span class="text-red-500">*</span>
           </label>
           <div class="relative">
-            <UIcon name="i-heroicons-envelope" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
             <input
               v-model="form.clientEmail"
               type="email"
@@ -82,7 +92,9 @@
             Téléphone <span class="text-red-500">*</span>
           </label>
           <div class="relative">
-            <UIcon name="i-heroicons-phone" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 00-.88.5l-1.54 2.7a1 1 0 00.12 1.07l2.5 2.5a10 10 0 003.57-5.77L9.88 9a1 1 0 001.07.12l2.7-1.54a1 1 0 00.5-.88V5a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+            </svg>
             <input
               v-model="form.clientPhone"
               type="tel"
@@ -99,7 +111,9 @@
     <!-- Custom Fields -->
     <div v-if="customFields.length > 0" class="bg-white border border-zinc-200 rounded-xl p-5">
       <h3 class="text-sm font-semibold text-zinc-900 uppercase tracking-wider mb-5 flex items-center gap-2">
-        <UIcon name="i-heroicons-clipboard-document-list" class="w-4 h-4" />
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+        </svg>
         Informations complémentaires
       </h3>
 
@@ -130,7 +144,9 @@
 
     <!-- Error Alert -->
     <div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-      <UIcon name="i-heroicons-exclamation-circle" class="w-5 h-5 text-red-500 flex-shrink-0" />
+      <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
       <p class="text-red-700 text-sm">{{ error }}</p>
     </div>
 
@@ -142,7 +158,9 @@
     >
       <span v-if="loading" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
       <template v-else>
-        <UIcon name="i-heroicons-check-circle" class="w-5 h-5" />
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
         Confirmer la réservation
       </template>
     </button>
