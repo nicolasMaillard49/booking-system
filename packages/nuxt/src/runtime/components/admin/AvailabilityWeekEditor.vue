@@ -9,28 +9,39 @@
         <!-- Jour -->
         <div class="w-24 text-[13px] font-medium text-black">{{ dayLabels[rule.dayOfWeek] }}</div>
 
-        <!-- Actif/Inactif -->
-        <UToggle v-model="rule.isActive" />
+        <!-- Actif/Inactif Toggle -->
+        <button
+          class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer shrink-0"
+          :class="rule.isActive && 'bg-zinc-900'"
+          @click="rule.isActive = !rule.isActive"
+        >
+          <span
+            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+            :class="rule.isActive && 'translate-x-5.5'"
+          />
+        </button>
 
         <!-- Horaires -->
         <template v-if="rule.isActive">
           <input
             v-model="rule.openTime"
             type="time"
-            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-black transition-colors"
+            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors"
           />
           <span class="text-neutral-300 text-[13px]">-</span>
           <input
             v-model="rule.closeTime"
             type="time"
-            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-black transition-colors"
+            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors"
           />
 
           <button
             class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer ml-2"
             @click="addBreak(index)"
           >
-            <UIcon name="i-heroicons-plus" class="text-sm" />
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
             Pause
           </button>
         </template>
@@ -49,14 +60,16 @@
           class="flex items-center gap-2"
         >
           <span class="text-[11px] text-neutral-400 w-12">Pause</span>
-          <input v-model="brk.startTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:border-black transition-colors" />
+          <input v-model="brk.startTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors" />
           <span class="text-neutral-300 text-[12px]">-</span>
-          <input v-model="brk.endTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:border-black transition-colors" />
+          <input v-model="brk.endTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors" />
           <button
-            class="w-6 h-6 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer"
+            class="w-6 h-6 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer shrink-0"
             @click="removeBreak(index, bIndex)"
           >
-            <UIcon name="i-heroicons-x-mark" class="text-red-400 text-sm" />
+            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       </div>
