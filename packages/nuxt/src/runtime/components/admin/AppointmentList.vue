@@ -27,7 +27,9 @@
             <BookingSharedStatusBadge :status="appt.status" size="xs" />
           </td>
           <td class="py-3.5 px-5">
-            <UIcon name="i-heroicons-chevron-right" class="text-neutral-300" />
+            <svg class="w-5 h-5 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
           </td>
         </tr>
       </tbody>

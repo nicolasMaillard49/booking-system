@@ -1,60 +1,138 @@
 <template>
-  <div class="space-y-4">
-    <UFormGroup label="Clé technique *" :error="errors.key">
-      <UInput v-model="form.key" placeholder="Ex: allergies, vehicle_type" :disabled="!!field" />
-    </UFormGroup>
-
-    <UFormGroup label="Label affiché *" :error="errors.label">
-      <UInput v-model="form.label" placeholder="Ex: Allergies connues" />
-    </UFormGroup>
-
-    <UFormGroup label="Type de champ *">
-      <USelect
-        v-model="form.type"
-        :options="typeOptions"
-        option-attribute="label"
-        value-attribute="value"
+  <div class="space-y-5">
+    <!-- Clé technique -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Clé technique *</label>
+      <input
+        v-model="form.key"
+        type="text"
+        placeholder="Ex: allergies, vehicle_type"
+        :disabled="!!field"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        :class="{ 'border-red-300 focus:ring-red-900': errors.key }"
       />
-    </UFormGroup>
+      <p v-if="errors.key" class="text-sm text-red-600 mt-1">{{ errors.key }}</p>
+    </div>
+
+    <!-- Label affiché -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Label affiché *</label>
+      <input
+        v-model="form.label"
+        type="text"
+        placeholder="Ex: Allergies connues"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+        :class="{ 'border-red-300 focus:ring-red-900': errors.label }"
+      />
+      <p v-if="errors.label" class="text-sm text-red-600 mt-1">{{ errors.label }}</p>
+    </div>
+
+    <!-- Type de champ -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Type de champ *</label>
+      <select
+        v-model="form.type"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+      >
+        <option v-for="opt in typeOptions" :key="opt.value" :value="opt.value">
+          {{ opt.label }}
+        </option>
+      </select>
+    </div>
 
     <!-- Options pour SELECT/RADIO/CHECKBOX -->
     <div v-if="needsOptions">
-      <label class="block text-[13px] font-medium text-black mb-2">Options</label>
+      <label class="block text-sm font-medium text-zinc-700 mb-3">Options</label>
       <div v-for="(opt, i) in form.options" :key="i" class="flex gap-2 mb-2">
-        <UInput v-model="opt.value" placeholder="valeur" class="w-1/2" />
-        <UInput v-model="opt.label" placeholder="label affiché" class="w-1/2" />
+        <input
+          v-model="opt.value"
+          type="text"
+          placeholder="valeur"
+          class="w-1/2 px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all text-sm"
+        />
+        <input
+          v-model="opt.label"
+          type="text"
+          placeholder="label affiché"
+          class="w-1/2 px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all text-sm"
+        />
         <button
           class="w-7 h-7 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer shrink-0"
           @click="removeOption(i)"
         >
-          <UIcon name="i-heroicons-x-mark" class="text-red-400 text-sm" />
+          <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
       <button
-        class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer"
+        class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer mt-2"
         @click="addOption"
       >
-        <UIcon name="i-heroicons-plus" class="text-sm" />
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
         Ajouter une option
       </button>
     </div>
 
-    <UFormGroup label="Placeholder">
-      <UInput v-model="form.placeholder" placeholder="Texte d'aide..." />
-    </UFormGroup>
-
-    <div class="flex gap-6">
-      <UFormGroup label="Champ requis">
-        <UToggle v-model="form.isRequired" />
-      </UFormGroup>
-      <UFormGroup label="Champ actif">
-        <UToggle v-model="form.isActive" />
-      </UFormGroup>
+    <!-- Placeholder -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Placeholder</label>
+      <input
+        v-model="form.placeholder"
+        type="text"
+        placeholder="Texte d'aide..."
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+      />
     </div>
 
-    <div class="flex gap-3 justify-end">
-      <UButton variant="ghost" @click="$emit('cancel')">Annuler</UButton>
-      <UButton color="black" :loading="loading" @click="onSave">Enregistrer</UButton>
+    <!-- Toggles -->
+    <div class="flex gap-8">
+      <div class="flex items-center justify-between gap-4">
+        <label class="text-sm font-medium text-zinc-700">Champ requis</label>
+        <button
+          class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer"
+          :class="form.isRequired && 'bg-zinc-900'"
+          @click="form.isRequired = !form.isRequired"
+        >
+          <span
+            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+            :class="form.isRequired && 'translate-x-5.5'"
+          />
+        </button>
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <label class="text-sm font-medium text-zinc-700">Champ actif</label>
+        <button
+          class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer"
+          :class="form.isActive && 'bg-zinc-900'"
+          @click="form.isActive = !form.isActive"
+        >
+          <span
+            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+            :class="form.isActive && 'translate-x-5.5'"
+          />
+        </button>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-3 justify-end pt-2">
+      <button
+        class="px-4 py-2 border border-zinc-200 text-zinc-700 font-medium rounded-lg hover:bg-zinc-50 transition-colors cursor-pointer"
+        @click="$emit('cancel')"
+      >
+        Annuler
+      </button>
+      <button
+        class="px-4 py-2 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        :disabled="loading"
+        @click="onSave"
+      >
+        <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        <template v-else>Enregistrer</template>
+      </button>
     </div>
   </div>
 </template>

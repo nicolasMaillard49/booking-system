@@ -1,44 +1,127 @@
 <template>
-  <div class="space-y-4">
-    <UFormGroup label="Nom *" :error="errors.name">
-      <UInput v-model="form.name" placeholder="Ex: Coupe homme" />
-    </UFormGroup>
-
-    <UFormGroup label="Description">
-      <UTextarea v-model="form.description" placeholder="Description de la prestation..." :rows="3" />
-    </UFormGroup>
-
-    <div class="grid grid-cols-2 gap-4">
-      <UFormGroup label="Durée (minutes) *" :error="errors.duration">
-        <UInput v-model.number="form.duration" type="number" min="5" placeholder="30" />
-      </UFormGroup>
-
-      <UFormGroup label="Prix (€)">
-        <UInput v-model.number="form.price" type="number" min="0" step="0.01" placeholder="0.00" />
-      </UFormGroup>
+  <div class="space-y-5">
+    <!-- Nom -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Nom *</label>
+      <input
+        v-model="form.name"
+        type="text"
+        placeholder="Ex: Coupe homme"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+        :class="{ 'border-red-300 focus:ring-red-900': errors.name }"
+      />
+      <p v-if="errors.name" class="text-sm text-red-600 mt-1">{{ errors.name }}</p>
     </div>
 
-    <UFormGroup label="Afficher le prix">
-      <UToggle v-model="form.isPriceVisible" />
-    </UFormGroup>
-
-    <div class="grid grid-cols-2 gap-4">
-      <UFormGroup label="Délai min. réservation (heures)">
-        <UInput v-model.number="form.minBookingDelay" type="number" min="0" />
-      </UFormGroup>
-
-      <UFormGroup label="Délai max. réservation (jours)">
-        <UInput v-model.number="form.maxBookingDelay" type="number" min="1" />
-      </UFormGroup>
+    <!-- Description -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Description</label>
+      <textarea
+        v-model="form.description"
+        placeholder="Description de la prestation..."
+        rows="3"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all resize-none"
+      />
     </div>
 
-    <UFormGroup label="Prestation active">
-      <UToggle v-model="form.isActive" />
-    </UFormGroup>
+    <!-- Durée et Prix -->
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-zinc-700 mb-2">Durée (minutes) *</label>
+        <input
+          v-model.number="form.duration"
+          type="number"
+          min="5"
+          placeholder="30"
+          class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+          :class="{ 'border-red-300 focus:ring-red-900': errors.duration }"
+        />
+        <p v-if="errors.duration" class="text-sm text-red-600 mt-1">{{ errors.duration }}</p>
+      </div>
 
+      <div>
+        <label class="block text-sm font-medium text-zinc-700 mb-2">Prix (€)</label>
+        <input
+          v-model.number="form.price"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+          class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+        />
+      </div>
+    </div>
+
+    <!-- Afficher le prix -->
+    <div class="flex items-center justify-between">
+      <label class="text-sm font-medium text-zinc-700">Afficher le prix</label>
+      <button
+        class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer"
+        :class="form.isPriceVisible && 'bg-zinc-900'"
+        @click="form.isPriceVisible = !form.isPriceVisible"
+      >
+        <span
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+          :class="form.isPriceVisible && 'translate-x-5.5'
+"
+        />
+      </button>
+    </div>
+
+    <!-- Délais -->
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-zinc-700 mb-2">Délai min. réservation (heures)</label>
+        <input
+          v-model.number="form.minBookingDelay"
+          type="number"
+          min="0"
+          class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-zinc-700 mb-2">Délai max. réservation (jours)</label>
+        <input
+          v-model.number="form.maxBookingDelay"
+          type="number"
+          min="1"
+          class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+        />
+      </div>
+    </div>
+
+    <!-- Prestation active -->
+    <div class="flex items-center justify-between">
+      <label class="text-sm font-medium text-zinc-700">Prestation active</label>
+      <button
+        class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer"
+        :class="form.isActive && 'bg-zinc-900'"
+        @click="form.isActive = !form.isActive"
+      >
+        <span
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
+          :class="form.isActive && 'translate-x-5.5'"
+        />
+      </button>
+    </div>
+
+    <!-- Actions -->
     <div class="flex gap-3 justify-end pt-2">
-      <UButton variant="ghost" @click="$emit('cancel')">Annuler</UButton>
-      <UButton color="black" :loading="loading" @click="onSave">Enregistrer</UButton>
+      <button
+        class="px-4 py-2 border border-zinc-200 text-zinc-700 font-medium rounded-lg hover:bg-zinc-50 transition-colors cursor-pointer"
+        @click="$emit('cancel')"
+      >
+        Annuler
+      </button>
+      <button
+        class="px-4 py-2 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        :disabled="loading"
+        @click="onSave"
+      >
+        <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        <template v-else>Enregistrer</template>
+      </button>
     </div>
   </div>
 </template>

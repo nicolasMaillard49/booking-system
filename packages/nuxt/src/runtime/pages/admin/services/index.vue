@@ -1,9 +1,15 @@
 <template>
   <BookingAdminLayout title="Prestations">
     <template #actions>
-      <UButton color="black" size="sm" icon="i-heroicons-plus" @click="showCreateModal = true">
+      <button
+        class="flex items-center gap-2 px-3 py-2 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer text-sm"
+        @click="showCreateModal = true"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
         Nouvelle prestation
-      </UButton>
+      </button>
     </template>
 
     <div v-if="loading" class="flex justify-center py-20">
@@ -38,13 +44,17 @@
               class="w-7 h-7 rounded-md flex items-center justify-center hover:bg-neutral-100 transition-colors cursor-pointer"
               @click="onEdit(service)"
             >
-              <UIcon name="i-heroicons-pencil" class="text-[14px] text-neutral-400" />
+              <svg class="w-[14px] h-[14px] text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
             </button>
             <button
               class="w-7 h-7 rounded-md flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer"
               @click="onDelete(service.id)"
             >
-              <UIcon name="i-heroicons-trash" class="text-[14px] text-red-400" />
+              <svg class="w-[14px] h-[14px] text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
             </button>
           </div>
         </div>
@@ -56,22 +66,40 @@
     </div>
 
     <!-- Modal create/edit -->
-    <UModal v-model="showCreateModal" @close="selectedService = null">
-      <UCard>
-        <template #header>
-          <h3 class="text-[15px] font-semibold text-black">
-            {{ selectedService ? 'Modifier la prestation' : 'Nouvelle prestation' }}
-          </h3>
-        </template>
-
-        <BookingAdminServiceForm
-          :service="selectedService"
-          :loading="saving"
-          @save="onSave"
-          @cancel="showCreateModal = false"
-        />
-      </UCard>
-    </UModal>
+    <Transition
+      enter-active-class="transition-opacity duration-300"
+      leave-active-class="transition-opacity duration-300"
+      enter-from-class="opacity-0"
+      leave-to-class="opacity-0"
+    >
+      <div v-if="showCreateModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-lg w-full max-w-lg">
+          <!-- Header -->
+          <div class="px-6 py-4 border-b border-neutral-100 flex items-center justify-between">
+            <h3 class="text-[15px] font-semibold text-black">
+              {{ selectedService ? 'Modifier la prestation' : 'Nouvelle prestation' }}
+            </h3>
+            <button
+              class="p-1 rounded-md hover:bg-neutral-100 transition-colors cursor-pointer"
+              @click="showCreateModal = false"
+            >
+              <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <!-- Body -->
+          <div class="p-6">
+            <BookingAdminServiceForm
+              :service="selectedService"
+              :loading="saving"
+              @save="onSave"
+              @cancel="showCreateModal = false"
+            />
+          </div>
+        </div>
+      </div>
+    </Transition>
   </BookingAdminLayout>
 </template>
 

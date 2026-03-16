@@ -1,36 +1,77 @@
 <template>
-  <div class="space-y-4">
-    <UFormGroup label="Date *">
-      <UInput v-model="form.date" type="date" />
-    </UFormGroup>
-
-    <UFormGroup label="Type">
-      <USelect
-        v-model="form.type"
-        :options="typeOptions"
-        option-attribute="label"
-        value-attribute="value"
+  <div class="space-y-5">
+    <!-- Date -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Date *</label>
+      <input
+        v-model="form.date"
+        type="date"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
       />
-    </UFormGroup>
+    </div>
 
+    <!-- Type -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Type</label>
+      <select
+        v-model="form.type"
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+      >
+        <option v-for="opt in typeOptions" :key="opt.value" :value="opt.value">
+          {{ opt.label }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Custom Hours -->
     <template v-if="form.type === 'CUSTOM_HOURS'">
       <div class="grid grid-cols-2 gap-4">
-        <UFormGroup label="Ouverture">
-          <UInput v-model="form.openTime" type="time" />
-        </UFormGroup>
-        <UFormGroup label="Fermeture">
-          <UInput v-model="form.closeTime" type="time" />
-        </UFormGroup>
+        <div>
+          <label class="block text-sm font-medium text-zinc-700 mb-2">Ouverture</label>
+          <input
+            v-model="form.openTime"
+            type="time"
+            class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-zinc-700 mb-2">Fermeture</label>
+          <input
+            v-model="form.closeTime"
+            type="time"
+            class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+          />
+        </div>
       </div>
     </template>
 
-    <UFormGroup label="Label (optionnel)">
-      <UInput v-model="form.label" placeholder="Ex: Noël, Vacances d'été..." />
-    </UFormGroup>
+    <!-- Label -->
+    <div>
+      <label class="block text-sm font-medium text-zinc-700 mb-2">Label (optionnel)</label>
+      <input
+        v-model="form.label"
+        type="text"
+        placeholder="Ex: Noël, Vacances d'été..."
+        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+      />
+    </div>
 
+    <!-- Actions -->
     <div class="flex gap-3 justify-end">
-      <UButton variant="ghost" @click="$emit('cancel')">Annuler</UButton>
-      <UButton color="black" :loading="loading" @click="$emit('save', form)">Enregistrer</UButton>
+      <button
+        class="px-4 py-2 border border-zinc-200 text-zinc-700 font-medium rounded-lg hover:bg-zinc-50 transition-colors cursor-pointer"
+        @click="$emit('cancel')"
+      >
+        Annuler
+      </button>
+      <button
+        class="px-4 py-2 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        :disabled="loading"
+        @click="$emit('save', form)"
+      >
+        <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        <template v-else>Enregistrer</template>
+      </button>
     </div>
   </div>
 </template>
