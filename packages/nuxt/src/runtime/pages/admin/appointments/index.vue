@@ -3,7 +3,7 @@
     <BookingAdminAppointmentFilters v-model="filters" class="mb-6" @change="onFilter" />
 
     <div v-if="loading" class="flex justify-center py-20">
-      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
+      <div class="w-5 h-5 border-2 border-gray-200 dark:border-gray-700 border-t-gray-900 dark:border-t-brand-500 rounded-full animate-spin" />
     </div>
 
     <div v-else>
@@ -13,10 +13,10 @@
       />
 
       <div v-if="meta && meta.totalPages > 1" class="flex justify-center mt-6">
-        <UPagination
+        <BookingSharedBasePagination
           v-model="currentPage"
           :total="meta.total"
-          :page-count="meta.limit"
+          :per-page="meta.limit"
           @update:model-value="onPageChange"
         />
       </div>
@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useAdminAppointments } from '../../../composables/useAdminAppointments'
 import { useRuntimeConfig, navigateTo } from '#app'
 
 const { appointments, meta, loading, fetchAll } = useAdminAppointments()

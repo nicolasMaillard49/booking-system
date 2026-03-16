@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex bg-white">
+  <div class="min-h-screen flex bg-white dark:bg-gray-900">
     <!-- Left Panel - Branding -->
     <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 items-center justify-center relative overflow-hidden p-12">
       <!-- Decorative elements -->
@@ -25,61 +25,61 @@
     </div>
 
     <!-- Right Panel - Form -->
-    <div class="flex-1 flex flex-col items-center justify-center px-6 py-12">
+    <div class="flex-1 flex flex-col items-center justify-center px-6 py-12 bg-white dark:bg-gray-900 transition-colors">
       <div class="w-full max-w-sm">
         <!-- Mobile Logo -->
         <div class="lg:hidden mb-10">
           <div class="flex items-center gap-3 mb-8">
-            <div class="w-10 h-10 rounded-lg bg-zinc-900 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-lg bg-gray-900 dark:bg-brand-600 flex items-center justify-center">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <span class="text-xl font-bold text-zinc-900">Booking System</span>
+            <span class="text-xl font-bold text-gray-900 dark:text-gray-100">Booking System</span>
           </div>
         </div>
 
         <!-- Form Header -->
         <div class="mb-8">
-          <h2 class="text-3xl font-bold text-zinc-900">Connexion</h2>
-          <p class="text-zinc-500 mt-2">Accédez à votre tableau de bord administrateur</p>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Connexion</h2>
+          <p class="text-gray-500 dark:text-gray-400 mt-2">Accédez à votre tableau de bord administrateur</p>
         </div>
 
         <!-- Form -->
         <form class="space-y-5" @submit.prevent="onLogin">
           <!-- Email -->
           <div>
-            <label class="block text-sm font-medium text-zinc-700 mb-2">Email</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Identifiant</label>
             <div class="relative">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <input
                 v-model="email"
-                type="email"
-                placeholder="admin@example.com"
-                class="w-full pl-10 pr-4 py-3 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                type="text"
+                placeholder="admin"
+                class="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-600 dark:focus:ring-brand-400 focus:border-transparent transition-all"
               />
             </div>
           </div>
 
           <!-- Password -->
           <div>
-            <label class="block text-sm font-medium text-zinc-700 mb-2">Mot de passe</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mot de passe</label>
             <div class="relative">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
               <input
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Votre mot de passe"
-                class="w-full pl-10 pr-10 py-3 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+                class="w-full pl-10 pr-10 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-600 dark:focus:ring-brand-400 focus:border-transparent transition-all"
               />
               <button
                 type="button"
                 @click="showPassword = !showPassword"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
               >
                 <svg v-if="showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-4.803m5.596-3.856a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0z" />
@@ -94,11 +94,11 @@
 
           <!-- Error Alert -->
           <Transition name="fade">
-            <div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center gap-2">
-              <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div v-if="error" class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-2">
+              <svg class="w-5 h-5 text-red-500 dark:text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p class="text-sm text-red-700">{{ error }}</p>
+              <p class="text-sm text-red-700 dark:text-red-300">{{ error }}</p>
             </div>
           </Transition>
 
@@ -106,7 +106,7 @@
           <button
             type="submit"
             :disabled="!email || !password || loading"
-            class="w-full py-3 bg-zinc-900 text-white font-semibold rounded-lg hover:bg-zinc-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            class="w-full py-3 bg-brand-600 dark:bg-brand-500 text-white font-semibold rounded-lg hover:bg-brand-700 dark:hover:bg-brand-600 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             <span v-if="loading" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             <template v-else>
@@ -119,8 +119,8 @@
         </form>
 
         <!-- Footer -->
-        <p class="text-center text-sm text-zinc-500 mt-8">
-          Besoin d'aide? <a href="#" class="text-zinc-900 hover:underline font-medium">Contactez le support</a>
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
+          Besoin d'aide? <a href="#" class="text-gray-900 dark:text-gray-100 hover:underline font-medium">Contactez le support</a>
         </p>
       </div>
     </div>
@@ -129,7 +129,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuth } from '../../composables/useAuth'
 
 const { login } = useAuth()
 const email = ref('')

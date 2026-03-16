@@ -53,7 +53,7 @@ export class ReminderService {
       if (alreadySent) continue
 
       try {
-        await this.mailService.sendAppointmentEmail('reminder', appointment)
+        await this.mailService.sendAppointmentEmail('REMINDER', appointment)
 
         // Marquer le rappel comme envoyé
         await this.repo.update(appointment.id, {

@@ -159,7 +159,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useBookingSlots } from '../../composables/useSlots'
 import type { AppointmentPublic } from '@booking/shared'
 
 const props = defineProps<{

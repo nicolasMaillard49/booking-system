@@ -2,37 +2,37 @@
   <div class="space-y-5">
     <!-- Clé technique -->
     <div>
-      <label class="block text-sm font-medium text-zinc-700 mb-2">Clé technique *</label>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Clé technique *</label>
       <input
         v-model="form.key"
         type="text"
         placeholder="Ex: allergies, vehicle_type"
         :disabled="!!field"
-        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-        :class="{ 'border-red-300 focus:ring-red-900': errors.key }"
+        class="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        :class="{ 'border-red-300 dark:border-red-500 focus:ring-red-500': errors.key }"
       />
-      <p v-if="errors.key" class="text-sm text-red-600 mt-1">{{ errors.key }}</p>
+      <p v-if="errors.key" class="text-sm text-red-600 dark:text-red-400 mt-1">{{ errors.key }}</p>
     </div>
 
     <!-- Label affiché -->
     <div>
-      <label class="block text-sm font-medium text-zinc-700 mb-2">Label affiché *</label>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Label affiché *</label>
       <input
         v-model="form.label"
         type="text"
         placeholder="Ex: Allergies connues"
-        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
-        :class="{ 'border-red-300 focus:ring-red-900': errors.label }"
+        class="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
+        :class="{ 'border-red-300 dark:border-red-500 focus:ring-red-500': errors.label }"
       />
-      <p v-if="errors.label" class="text-sm text-red-600 mt-1">{{ errors.label }}</p>
+      <p v-if="errors.label" class="text-sm text-red-600 dark:text-red-400 mt-1">{{ errors.label }}</p>
     </div>
 
     <!-- Type de champ -->
     <div>
-      <label class="block text-sm font-medium text-zinc-700 mb-2">Type de champ *</label>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type de champ *</label>
       <select
         v-model="form.type"
-        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all cursor-pointer"
+        class="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all cursor-pointer"
       >
         <option v-for="opt in typeOptions" :key="opt.value" :value="opt.value">
           {{ opt.label }}
@@ -42,31 +42,31 @@
 
     <!-- Options pour SELECT/RADIO/CHECKBOX -->
     <div v-if="needsOptions">
-      <label class="block text-sm font-medium text-zinc-700 mb-3">Options</label>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Options</label>
       <div v-for="(opt, i) in form.options" :key="i" class="flex gap-2 mb-2">
         <input
           v-model="opt.value"
           type="text"
           placeholder="valeur"
-          class="w-1/2 px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all text-sm"
+          class="w-1/2 px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all text-sm"
         />
         <input
           v-model="opt.label"
           type="text"
           placeholder="label affiché"
-          class="w-1/2 px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all text-sm"
+          class="w-1/2 px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all text-sm"
         />
         <button
-          class="w-7 h-7 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer shrink-0"
+          class="w-7 h-7 rounded flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer shrink-0"
           @click="removeOption(i)"
         >
-          <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 text-red-400 dark:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
       <button
-        class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer mt-2"
+        class="flex items-center gap-1 text-[12px] text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer mt-2"
         @click="addOption"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,40 +78,40 @@
 
     <!-- Placeholder -->
     <div>
-      <label class="block text-sm font-medium text-zinc-700 mb-2">Placeholder</label>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Placeholder</label>
       <input
         v-model="form.placeholder"
         type="text"
         placeholder="Texte d'aide..."
-        class="w-full px-3 py-2 border border-zinc-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
+        class="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
       />
     </div>
 
     <!-- Toggles -->
     <div class="flex gap-8">
       <div class="flex items-center justify-between gap-4">
-        <label class="text-sm font-medium text-zinc-700">Champ requis</label>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Champ requis</label>
         <button
-          class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer"
-          :class="form.isRequired && 'bg-zinc-900'"
+          class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-600 transition-colors cursor-pointer"
+          :class="form.isRequired && 'bg-green-500 dark:bg-green-500'"
           @click="form.isRequired = !form.isRequired"
         >
           <span
             class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
-            :class="form.isRequired && 'translate-x-5.5'"
+            :class="form.isRequired ? 'translate-x-[22px]' : 'translate-x-0.5'"
           />
         </button>
       </div>
       <div class="flex items-center justify-between gap-4">
-        <label class="text-sm font-medium text-zinc-700">Champ actif</label>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Champ actif</label>
         <button
-          class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer"
-          :class="form.isActive && 'bg-zinc-900'"
+          class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-600 transition-colors cursor-pointer"
+          :class="form.isActive && 'bg-green-500 dark:bg-green-500'"
           @click="form.isActive = !form.isActive"
         >
           <span
             class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
-            :class="form.isActive && 'translate-x-5.5'"
+            :class="form.isActive ? 'translate-x-[22px]' : 'translate-x-0.5'"
           />
         </button>
       </div>
@@ -120,13 +120,13 @@
     <!-- Actions -->
     <div class="flex gap-3 justify-end pt-2">
       <button
-        class="px-4 py-2 border border-zinc-200 text-zinc-700 font-medium rounded-lg hover:bg-zinc-50 transition-colors cursor-pointer"
+        class="px-4 py-2 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
         @click="$emit('cancel')"
       >
         Annuler
       </button>
       <button
-        class="px-4 py-2 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="px-4 py-2 bg-gray-900 dark:bg-brand-600 hover:bg-gray-800 dark:hover:bg-brand-500 text-white font-medium rounded-lg transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         :disabled="loading"
         @click="onSave"
       >

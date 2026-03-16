@@ -23,7 +23,7 @@ export class AvailabilityService {
 
   // Remplacement complet des règles — on supprime tout et on recrée
   async replaceRules(dtos: AvailabilityRuleDto[]): Promise<AvailabilityRule[]> {
-    await this.ruleRepo.delete({})
+    await this.ruleRepo.createQueryBuilder().delete().execute()
     const rules = dtos.map(dto => this.ruleRepo.create(dto))
     return this.ruleRepo.save(rules)
   }

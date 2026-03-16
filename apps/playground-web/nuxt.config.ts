@@ -1,9 +1,16 @@
 export default defineNuxtConfig({
   modules: [
     '@booking/nuxt',
-    '@nuxt/ui',
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
     '@pinia/nuxt',
   ],
+
+  colorMode: {
+    classSuffix: '',
+    preference: 'system',
+    fallback: 'light',
+  },
 
   booking: {
     apiBase: 'http://localhost:3001',

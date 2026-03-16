@@ -30,7 +30,8 @@ export class SlotGeneratorService {
 
     // 1. Vérifier si la date est dans la fenêtre de réservation autorisée
     const now = new Date()
-    const targetDate = new Date(date)
+    // Comparer uniquement les dates (sans les heures) pour éviter les problèmes de timezone
+    const targetDate = new Date(`${date}T12:00:00`) // Midi pour éviter les edge-cases UTC
     const minDate = new Date(now.getTime() + settings.minHoursBeforeBooking * 60 * 60 * 1000)
     const maxDate = new Date(now.getTime() + settings.maxDaysInAdvance * 24 * 60 * 60 * 1000)
 
@@ -85,6 +86,13 @@ export class SlotGeneratorService {
     return this.filterBookedSlots(slots, date, serviceDuration, settings.bufferBetweenSlots)
   }
 
+  // Normalise un time string vers HH:mm:ss (gère "HH:mm" et "HH:mm:ss" de PostgreSQL)
+  private normalizeTime(time: string): string {
+    const parts = time.split(':')
+    if (parts.length === 2) return `${parts[0]}:${parts[1]}:00`
+    return `${parts[0]}:${parts[1]}:${parts[2]}`
+  }
+
   // Génère tous les créneaux potentiels d'une journée
   private generateTimeSlots(
     date: string,
@@ -97,8 +105,8 @@ export class SlotGeneratorService {
   ): Date[] {
     const slots: Date[] = []
 
-    const open = new Date(`${date}T${openTime}:00`)
-    const close = new Date(`${date}T${closeTime}:00`)
+    const open = new Date(`${date}T${this.normalizeTime(openTime)}`)
+    const close = new Date(`${date}T${this.normalizeTime(closeTime)}`)
 
     let current = new Date(open)
 
@@ -107,8 +115,8 @@ export class SlotGeneratorService {
 
       // Vérifier que le créneau ne tombe pas dans une pause
       const inBreak = breaks.some(b => {
-        const breakStart = new Date(`${date}T${b.start}:00`)
-        const breakEnd = new Date(`${date}T${b.end}:00`)
+        const breakStart = new Date(`${date}T${this.normalizeTime(b.start)}`)
+        const breakEnd = new Date(`${date}T${this.normalizeTime(b.end)}`)
         return current < breakEnd && slotEnd > breakStart
       })
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="h-screen bg-neutral-50 transition-colors dark:bg-black overflow-hidden">
     <!-- Mobile overlay -->
     <Transition
       enter-active-class="transition-opacity duration-300"
@@ -75,33 +75,35 @@
     </aside>
 
     <!-- Main -->
-    <div class="lg:pl-[260px] min-h-screen flex flex-col">
+    <div class="lg:pl-[260px] h-screen flex flex-col">
       <!-- Header -->
-      <header class="h-[72px] bg-white border-b border-neutral-100 flex items-center justify-between px-5 lg:px-8 sticky top-0 z-20 shrink-0">
+      <header class="h-[72px] bg-white/80 dark:bg-white/[0.02] border-b border-black/5 dark:border-white/5 flex items-center justify-between px-5 lg:px-8 sticky top-0 z-20 shrink-0 transition-colors backdrop-blur-xl">
         <div class="flex items-center gap-4">
           <button
-            class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-neutral-50 cursor-pointer transition-colors"
+            class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/5 cursor-pointer transition-colors"
             aria-label="Menu"
             @click="mobileOpen = !mobileOpen"
           >
-            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-neutral-900 dark:text-neutral-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
           <slot name="header">
-            <h1 class="text-[17px] font-semibold text-black tracking-[-0.01em]">{{ title }}</h1>
+            <h1 class="text-[17px] font-semibold text-neutral-900 dark:text-neutral-100 tracking-[-0.01em]">{{ title }}</h1>
           </slot>
         </div>
         <div class="flex items-center gap-2">
+          <BookingThemeToggle />
           <slot name="actions" />
         </div>
       </header>
 
       <!-- Content -->
-      <main class="flex-1 p-5 lg:p-8 bg-neutral-50/50">
+      <main class="flex-1 p-5 lg:p-8 bg-neutral-50 dark:bg-black transition-colors overflow-y-auto">
         <slot />
       </main>
     </div>
+    <BookingToastContainer />
   </div>
 </template>
 
@@ -109,7 +111,6 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
-import { useAuth } from '../../composables/useAuth'
 import { useRuntimeConfig } from '#app'
 
 defineProps<{

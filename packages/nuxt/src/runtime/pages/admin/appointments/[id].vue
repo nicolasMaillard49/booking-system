@@ -2,16 +2,18 @@
   <BookingAdminLayout title="Détail du rendez-vous">
     <template #actions>
       <button
-        class="flex items-center gap-1.5 text-[13px] font-medium text-neutral-500 hover:text-black transition-colors cursor-pointer"
+        class="flex items-center gap-1.5 text-[13px] font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer"
         @click="navigateTo(`${adminPrefix}/appointments`)"
       >
-        <UIcon name="i-heroicons-arrow-left" class="text-sm" />
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
         Retour
       </button>
     </template>
 
     <div v-if="loading" class="flex justify-center py-20">
-      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
+      <div class="w-5 h-5 border-2 border-gray-200 dark:border-gray-700 border-t-gray-900 dark:border-t-brand-500 rounded-full animate-spin" />
     </div>
 
     <div v-else class="max-w-3xl">
@@ -32,7 +34,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useAdminAppointments } from '../../../composables/useAdminAppointments'
 import { useRuntimeConfig, navigateTo } from '#app'
 
 const route = useRoute()

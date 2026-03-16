@@ -3,14 +3,14 @@
     <!-- Skeleton loading -->
     <div v-if="loading" class="space-y-6">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div v-for="i in 4" :key="i" class="bg-white rounded-lg border border-neutral-200 p-5 animate-pulse">
-          <div class="h-3 w-16 bg-neutral-100 rounded mb-3" />
-          <div class="h-7 w-12 bg-neutral-100 rounded" />
+        <div v-for="i in 4" :key="i" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 animate-pulse">
+          <div class="h-3 w-16 bg-gray-100 dark:bg-gray-700 rounded mb-3" />
+          <div class="h-7 w-12 bg-gray-100 dark:bg-gray-700 rounded" />
         </div>
       </div>
-      <div class="bg-white rounded-lg border border-neutral-200 p-6 animate-pulse">
-        <div class="h-4 w-36 bg-neutral-100 rounded mb-6" />
-        <div v-for="i in 5" :key="i" class="h-11 bg-neutral-50 rounded mb-2" />
+      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+        <div class="h-4 w-36 bg-gray-100 dark:bg-gray-700 rounded mb-6" />
+        <div v-for="i in 5" :key="i" class="h-11 bg-gray-50 dark:bg-gray-700 rounded mb-2" />
       </div>
     </div>
 
@@ -20,26 +20,26 @@
         <div
           v-for="stat in stats"
           :key="stat.label"
-          class="bg-white rounded-lg border border-neutral-200 p-5"
+          class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 transition-colors"
         >
-          <div class="text-[12px] font-medium text-neutral-500 uppercase tracking-wide mb-2">{{ stat.label }}</div>
-          <div class="text-[28px] font-semibold text-black tracking-[-0.02em]">{{ stat.value }}</div>
+          <div class="text-[12px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">{{ stat.label }}</div>
+          <div class="text-[28px] font-semibold text-gray-900 dark:text-gray-100 tracking-[-0.02em]">{{ stat.value }}</div>
         </div>
       </div>
 
       <!-- Recent appointments -->
-      <div class="bg-white rounded-lg border border-neutral-200">
-        <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
-          <h2 class="text-[14px] font-semibold text-black">Rendez-vous récents</h2>
+      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h2 class="text-[14px] font-semibold text-gray-900 dark:text-gray-100">Rendez-vous récents</h2>
           <button
-            class="text-[13px] font-medium text-neutral-500 hover:text-black transition-colors cursor-pointer"
+            class="text-[13px] font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer"
             @click="navigateTo(`${adminPrefix}/appointments`)"
           >
             Voir tout
           </button>
         </div>
 
-        <div v-if="recentAppointments.length === 0" class="text-center py-16 text-neutral-400 text-[13px]">
+        <div v-if="recentAppointments.length === 0" class="text-center py-16 text-gray-400 dark:text-gray-500 text-[13px]">
           Aucun rendez-vous pour le moment
         </div>
 
@@ -47,19 +47,19 @@
           <div
             v-for="(appt, idx) in recentAppointments"
             :key="appt.id"
-            class="flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-neutral-50 transition-colors duration-150"
-            :class="{ 'border-t border-neutral-100': idx > 0 }"
+            class="flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150"
+            :class="{ 'border-t border-gray-100 dark:border-gray-700': idx > 0 }"
             @click="navigateTo(`${adminPrefix}/appointments/${appt.id}`)"
           >
             <div class="flex items-center gap-3.5 min-w-0">
-              <div class="w-8 h-8 rounded-full bg-black flex items-center justify-center text-[11px] font-semibold text-white shrink-0">
+              <div class="w-8 h-8 rounded-full bg-brand-600 dark:bg-brand-500 flex items-center justify-center text-[11px] font-semibold text-white shrink-0">
                 {{ (appt.clientFirstName?.[0] ?? '') + (appt.clientLastName?.[0] ?? '') }}
               </div>
               <div class="min-w-0">
-                <div class="text-[13px] font-medium text-black truncate">
+                <div class="text-[13px] font-medium text-gray-900 dark:text-gray-100 truncate">
                   {{ appt.clientFirstName }} {{ appt.clientLastName }}
                 </div>
-                <div class="text-[12px] text-neutral-400 mt-0.5">
+                <div class="text-[12px] text-gray-400 dark:text-gray-500 mt-0.5">
                   {{ formatDate(appt.startAt) }}
                 </div>
               </div>
@@ -74,7 +74,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useBookingApi } from '../../composables/useBookingApi'
 import { useRuntimeConfig, navigateTo } from '#app'
 
 const api = useBookingApi()

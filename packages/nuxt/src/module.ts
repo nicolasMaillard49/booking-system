@@ -3,6 +3,7 @@ import {
   addPlugin,
   addComponentsDir,
   addImportsDir,
+  addRouteMiddleware,
   extendPages,
   createResolver,
 } from '@nuxt/kit'
@@ -144,6 +145,13 @@ export default defineNuxtModule<BookingModuleOptions>({
     // ── Composables auto-importés ────────────────────────────────────────────
     addImportsDir(resolver.resolve(runtimeDir, 'composables'))
     addImportsDir(resolver.resolve(runtimeDir, 'stores'))
+
+    // ── Middleware auth (hydrate store + protection routes admin) ─────────────
+    addRouteMiddleware({
+      name: 'booking-auth',
+      path: resolver.resolve(runtimeDir, 'middleware/auth'),
+      global: true,
+    })
 
     // ── Plugin principal (api + auth store) ──────────────────────────────────
     addPlugin(resolver.resolve(runtimeDir, 'plugins/booking'))

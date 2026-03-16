@@ -113,7 +113,7 @@ export class AppointmentService {
       })
 
       // Envoyer email
-      const emailType = settings.autoConfirm ? 'confirmed' : 'request_received'
+      const emailType = settings.autoConfirm ? 'CONFIRMED' : 'REQUEST_RECEIVED'
       await this.mailService.sendAppointmentEmail(emailType, {
         ...saved,
         magicToken: token,
@@ -199,7 +199,7 @@ export class AppointmentService {
         await this.saveCustomFields(manager, appointment.id, dto.customFields)
       }
 
-      await this.mailService.sendAppointmentEmail('modified', {
+      await this.mailService.sendAppointmentEmail('MODIFIED', {
         ...appointment,
         ...updates,
         magicToken: newToken,
@@ -230,7 +230,7 @@ export class AppointmentService {
       magicTokenUsed: true,
     })
 
-    await this.mailService.sendAppointmentEmail('cancelled', appointment)
+    await this.mailService.sendAppointmentEmail('CANCELLED', appointment)
     this.eventEmitter.emit(BOOKING_EVENTS.APPOINTMENT_CANCELLED, appointment)
   }
 
@@ -278,7 +278,7 @@ export class AppointmentService {
       throw new BadRequestException('Seul un RDV en attente peut être confirmé')
     }
     await this.repo.update(id, { status: AppointmentStatus.CONFIRMED })
-    await this.mailService.sendAppointmentEmail('confirmed', appointment)
+    await this.mailService.sendAppointmentEmail('CONFIRMED', appointment)
     this.eventEmitter.emit(BOOKING_EVENTS.APPOINTMENT_CONFIRMED, appointment)
     return this.findOne(id)
   }
@@ -293,7 +293,7 @@ export class AppointmentService {
       rejectionReason: dto.reason ?? null,
       alternativeSlot: dto.alternativeSlot ? new Date(dto.alternativeSlot) : null,
     })
-    await this.mailService.sendAppointmentEmail('rejected', { ...appointment, ...dto })
+    await this.mailService.sendAppointmentEmail('REJECTED', { ...appointment, ...dto })
     this.eventEmitter.emit(BOOKING_EVENTS.APPOINTMENT_REJECTED, appointment)
     return this.findOne(id)
   }

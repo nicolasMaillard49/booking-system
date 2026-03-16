@@ -24,17 +24,17 @@ export class AuthService implements OnModuleInit {
   async onModuleInit(): Promise<void> {
     const count = await this.userRepo.count()
     if (count === 0) {
-      const hashed = await bcrypt.hash('admin123', 12)
+      const hashed = await bcrypt.hash('admin', 12)
       await this.userRepo.save(
         this.userRepo.create({
-          email: 'admin@booking.local',
+          email: 'admin',
           password: hashed,
           firstName: 'Super',
           lastName: 'Admin',
           role: UserRole.SUPERADMIN,
         }),
       )
-      console.log('✅ Superadmin créé : admin@booking.local / admin123')
+      console.log('✅ Superadmin créé : admin / admin')
     }
   }
 

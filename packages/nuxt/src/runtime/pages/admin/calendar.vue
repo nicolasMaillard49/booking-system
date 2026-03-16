@@ -3,23 +3,27 @@
     <template #actions>
       <div class="flex items-center gap-2">
         <button
-          class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition-colors cursor-pointer"
+          class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
           @click="prevMonth"
         >
-          <UIcon name="i-heroicons-chevron-left" class="text-neutral-600" />
+          <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
         </button>
-        <span class="font-medium w-40 text-center text-[13px] capitalize text-black">{{ monthLabel }}</span>
+        <span class="font-medium w-40 text-center text-[13px] capitalize text-gray-900 dark:text-gray-100">{{ monthLabel }}</span>
         <button
-          class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-neutral-100 transition-colors cursor-pointer"
+          class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
           @click="nextMonth"
         >
-          <UIcon name="i-heroicons-chevron-right" class="text-neutral-600" />
+          <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
         </button>
       </div>
     </template>
 
     <div v-if="loading" class="flex justify-center py-20">
-      <div class="w-5 h-5 border-2 border-neutral-200 border-t-black rounded-full animate-spin" />
+      <div class="w-5 h-5 border-2 border-gray-200 dark:border-gray-700 border-t-gray-900 dark:border-t-brand-500 rounded-full animate-spin" />
     </div>
 
     <div v-else>
@@ -28,25 +32,25 @@
         <div
           v-for="day in dayHeaders"
           :key="day"
-          class="text-center text-[11px] font-medium text-neutral-400 uppercase tracking-wider py-3"
+          class="text-center text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider py-3"
         >
           {{ day }}
         </div>
       </div>
 
       <!-- Calendar grid -->
-      <div class="grid grid-cols-7 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
-        <div v-for="n in firstDayOffset" :key="`empty-${n}`" class="bg-neutral-50 min-h-[100px]" />
+      <div class="grid grid-cols-7 gap-px bg-gray-200 dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+        <div v-for="n in firstDayOffset" :key="`empty-${n}`" class="bg-gray-50 dark:bg-gray-800 min-h-[100px]" />
 
         <div
           v-for="day in daysInMonth"
           :key="day"
-          class="bg-white min-h-[100px] p-2 cursor-pointer hover:bg-neutral-50 transition-colors"
+          class="bg-white dark:bg-gray-800 min-h-[100px] p-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           @click="onDayClick(day)"
         >
           <div
             class="text-[12px] font-medium mb-1.5 w-6 h-6 flex items-center justify-center rounded-full"
-            :class="isToday(day) ? 'bg-black text-white' : 'text-neutral-500'"
+            :class="isToday(day) ? 'bg-gray-900 dark:bg-brand-500 text-white' : 'text-gray-500 dark:text-gray-400'"
           >
             {{ day }}
           </div>
@@ -62,7 +66,7 @@
             </div>
             <div
               v-if="getDayAppointments(day).length > 3"
-              class="text-[11px] text-neutral-400 text-center font-medium"
+              class="text-[11px] text-gray-400 dark:text-gray-500 text-center font-medium"
             >
               +{{ getDayAppointments(day).length - 3 }}
             </div>
@@ -72,40 +76,33 @@
     </div>
 
     <!-- Day detail modal -->
-    <UModal v-model="showDayModal">
-      <UCard>
-        <template #header>
-          <h3 class="text-[15px] font-semibold text-black">{{ selectedDayLabel }}</h3>
-        </template>
-
-        <div class="space-y-2">
-          <div
-            v-for="appt in selectedDayAppointments"
-            :key="appt.id"
-            class="flex items-center justify-between border border-neutral-200 rounded-lg p-3 cursor-pointer hover:bg-neutral-50 transition-colors"
-            @click="navigateTo(`${adminPrefix}/appointments/${appt.id}`); showDayModal = false"
-          >
-            <div>
-              <div class="text-[13px] font-medium text-black">
-                {{ formatTime(appt.startAt) }} — {{ appt.clientFirstName }} {{ appt.clientLastName }}
-              </div>
-              <div class="text-[12px] text-neutral-400 mt-0.5">{{ appt.service?.name ?? '' }}</div>
+    <BookingSharedBaseModal v-model="showDayModal" :title="selectedDayLabel">
+      <div class="space-y-2">
+        <div
+          v-for="appt in selectedDayAppointments"
+          :key="appt.id"
+          class="flex items-center justify-between border border-gray-200 dark:border-gray-700 rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          @click="navigateTo(`${adminPrefix}/appointments/${appt.id}`); showDayModal = false"
+        >
+          <div>
+            <div class="text-[13px] font-medium text-gray-900 dark:text-gray-100">
+              {{ formatTime(appt.startAt) }} — {{ appt.clientFirstName }} {{ appt.clientLastName }}
             </div>
-            <BookingSharedStatusBadge :status="appt.status" size="xs" />
+            <div class="text-[12px] text-gray-400 dark:text-gray-500 mt-0.5">{{ appt.service?.name ?? '' }}</div>
           </div>
-
-          <div v-if="!selectedDayAppointments.length" class="text-center py-8 text-neutral-400 text-[13px]">
-            Aucun rendez-vous ce jour
-          </div>
+          <BookingSharedStatusBadge :status="appt.status" size="xs" />
         </div>
-      </UCard>
-    </UModal>
+
+        <div v-if="!selectedDayAppointments.length" class="text-center py-8 text-gray-400 dark:text-gray-500 text-[13px]">
+          Aucun rendez-vous ce jour
+        </div>
+      </div>
+    </BookingSharedBaseModal>
   </BookingAdminLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useBookingApi } from '../../composables/useBookingApi'
 import { useRuntimeConfig, navigateTo } from '#app'
 
 const api = useBookingApi()
@@ -121,12 +118,12 @@ const selectedDay = ref<number | null>(null)
 const dayHeaders = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 
 const statusColors: Record<string, string> = {
-  PENDING: 'bg-amber-50 text-amber-700',
-  CONFIRMED: 'bg-emerald-50 text-emerald-700',
-  CANCELLED: 'bg-neutral-100 text-neutral-500',
-  REJECTED: 'bg-red-50 text-red-600',
-  COMPLETED: 'bg-blue-50 text-blue-700',
-  NO_SHOW: 'bg-orange-50 text-orange-700',
+  PENDING: 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400',
+  CONFIRMED: 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400',
+  CANCELLED: 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400',
+  REJECTED: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400',
+  COMPLETED: 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400',
+  NO_SHOW: 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400',
 }
 
 const monthLabel = computed(() =>

@@ -21,7 +21,8 @@
   },
   "peerDependencies": {
     "nuxt": "^3.0.0",
-    "@nuxt/ui": "^2.0.0"
+    "@nuxtjs/tailwindcss": "^6.0.0",
+    "@nuxtjs/color-mode": "^3.0.0"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.0.0",

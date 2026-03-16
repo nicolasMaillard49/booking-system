@@ -3,21 +3,21 @@
     <div
       v-for="(rule, index) in localRules"
       :key="rule.dayOfWeek"
-      class="bg-white border border-neutral-200 rounded-lg p-4"
+      class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
     >
       <div class="flex items-center gap-4">
         <!-- Jour -->
-        <div class="w-24 text-[13px] font-medium text-black">{{ dayLabels[rule.dayOfWeek] }}</div>
+        <div class="w-24 text-[13px] font-medium text-gray-900 dark:text-gray-100">{{ dayLabels[rule.dayOfWeek] }}</div>
 
         <!-- Actif/Inactif Toggle -->
         <button
-          class="relative inline-flex h-6 w-11 items-center rounded-full bg-zinc-200 transition-colors cursor-pointer shrink-0"
-          :class="rule.isActive && 'bg-zinc-900'"
+          class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-600 transition-colors cursor-pointer shrink-0"
+          :class="rule.isActive && 'bg-green-500 dark:bg-green-500'"
           @click="rule.isActive = !rule.isActive"
         >
           <span
             class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200"
-            :class="rule.isActive && 'translate-x-5.5'"
+            :class="rule.isActive ? 'translate-x-[22px]' : 'translate-x-0.5'"
           />
         </button>
 
@@ -26,17 +26,17 @@
           <input
             v-model="rule.openTime"
             type="time"
-            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors"
+            class="border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-colors"
           />
-          <span class="text-neutral-300 text-[13px]">-</span>
+          <span class="text-gray-300 dark:text-gray-600 text-[13px]">-</span>
           <input
             v-model="rule.closeTime"
             type="time"
-            class="border border-neutral-200 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors"
+            class="border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-colors"
           />
 
           <button
-            class="flex items-center gap-1 text-[12px] text-neutral-400 hover:text-black transition-colors cursor-pointer ml-2"
+            class="flex items-center gap-1 text-[12px] text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors cursor-pointer ml-2"
             @click="addBreak(index)"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
           </button>
         </template>
 
-        <span v-else class="text-[13px] text-neutral-400">Fermé</span>
+        <span v-else class="text-[13px] text-gray-400 dark:text-gray-500">Fermé</span>
       </div>
 
       <!-- Pauses -->
@@ -59,15 +59,15 @@
           :key="bIndex"
           class="flex items-center gap-2"
         >
-          <span class="text-[11px] text-neutral-400 w-12">Pause</span>
-          <input v-model="brk.startTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors" />
-          <span class="text-neutral-300 text-[12px]">-</span>
-          <input v-model="brk.endTime" type="time" class="border border-neutral-200 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-colors" />
+          <span class="text-[11px] text-gray-400 dark:text-gray-500 w-12">Pause</span>
+          <input v-model="brk.startTime" type="time" class="border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-colors" />
+          <span class="text-gray-300 dark:text-gray-600 text-[12px]">-</span>
+          <input v-model="brk.endTime" type="time" class="border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 rounded-lg px-2 py-1 text-[12px] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-colors" />
           <button
-            class="w-6 h-6 rounded flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer shrink-0"
+            class="w-6 h-6 rounded flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer shrink-0"
             @click="removeBreak(index, bIndex)"
           >
-            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-red-400 dark:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -76,7 +76,7 @@
     </div>
 
     <button
-      class="w-full py-3 bg-black text-white text-[14px] font-medium rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer disabled:opacity-50 mt-4"
+      class="w-full py-3 bg-gray-900 dark:bg-brand-600 text-white text-[14px] font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-brand-500 transition-colors cursor-pointer disabled:opacity-50 mt-4"
       :disabled="loading"
       @click="$emit('save', localRules)"
     >

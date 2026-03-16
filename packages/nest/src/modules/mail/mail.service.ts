@@ -8,13 +8,14 @@ import { Repository } from 'typeorm'
 import { SettingsService } from '../settings/settings.service'
 import { MagicLinkService } from '../magic-link/magic-link.service'
 
+// Utilise l'enum EmailType de @booking/shared pour correspondre aux valeurs PostgreSQL
 export type EmailEventType =
-  | 'request_received'
-  | 'confirmed'
-  | 'rejected'
-  | 'modified'
-  | 'cancelled'
-  | 'reminder'
+  | 'REQUEST_RECEIVED'
+  | 'CONFIRMED'
+  | 'REJECTED'
+  | 'MODIFIED'
+  | 'CANCELLED'
+  | 'REMINDER'
 
 @Injectable()
 export class MailService {
@@ -113,33 +114,33 @@ export class MailService {
       : ''
 
     const templates: Record<EmailEventType, string> = {
-      request_received: `
+      REQUEST_RECEIVED: `
         <p>Bonjour ${name},</p>
         <p>Votre demande de rendez-vous a bien été reçue pour le <strong>${formattedDate}</strong>.</p>
         <p>Elle est en attente de confirmation. Vous recevrez un email dès qu'elle sera traitée.</p>
         ${magicLinkHtml}
       `,
-      confirmed: `
+      CONFIRMED: `
         <p>Bonjour ${name},</p>
         <p>Votre rendez-vous du <strong>${formattedDate}</strong> est confirmé.</p>
         ${magicLinkHtml}
       `,
-      rejected: `
+      REJECTED: `
         <p>Bonjour ${name},</p>
         <p>Votre demande de rendez-vous du <strong>${formattedDate}</strong> n'a pas pu être acceptée.</p>
         ${context.rejectionReason ? `<p>Motif : ${context.rejectionReason}</p>` : ''}
         ${context.alternativeSlot ? `<p>Un créneau alternatif vous est proposé : <strong>${new Date(context.alternativeSlot).toLocaleString('fr-FR')}</strong></p>` : ''}
       `,
-      modified: `
+      MODIFIED: `
         <p>Bonjour ${name},</p>
         <p>Votre rendez-vous a été modifié. Nouveau créneau : <strong>${formattedDate}</strong>.</p>
         ${magicLinkHtml}
       `,
-      cancelled: `
+      CANCELLED: `
         <p>Bonjour ${name},</p>
         <p>Votre rendez-vous du <strong>${formattedDate}</strong> a été annulé.</p>
       `,
-      reminder: `
+      REMINDER: `
         <p>Bonjour ${name},</p>
         <p>Rappel : vous avez un rendez-vous prévu le <strong>${formattedDate}</strong>.</p>
         ${magicLinkHtml}
