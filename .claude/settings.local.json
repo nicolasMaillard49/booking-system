@@ -29,7 +29,9 @@
       "Bash(grep -r \"TODO\\\\|FIXME\\\\|XXX\\\\|HACK\\\\|BUG\\\\|import.*from.*undefined\" /c/Users/n.maillard/booking-system --include=\"*.ts\" --include=\"*.vue\" --include=\"*.js\" 2>/dev/null | grep -v node_modules | grep -v \".nuxt\" | grep -v \".output\" | head -50)",
       "Bash(find /c/Users/n.maillard/booking-system/apps/playground-api/dist -name \"*dto*\" 2>/dev/null | head -20; find /c/Users/n.maillard/booking-system/packages/nest/dist -name \"*dto*\" 2>/dev/null | head -20)",
       "Bash(pnpm turbo:*)",
-      "Bash(which node:*)"
+      "Bash(which node:*)",
+      "Bash(python3:*)",
+      "Bash(npx vue-tsc:*)"
     ]
   }
 }

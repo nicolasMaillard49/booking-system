@@ -24,6 +24,7 @@ export class SettingsController {
             description: settings.description,
             instructions: settings.instructions,
             timezone: settings.timezone,
+            autoConfirm: settings.autoConfirm,
         }
     }
 

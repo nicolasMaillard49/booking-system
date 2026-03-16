@@ -53,4 +53,21 @@ export class AvailabilityService {
     if (!exception) throw new NotFoundException(`Exception ${id} introuvable`)
     await this.exceptionRepo.delete(id)
   }
+
+  // Horaires publics — heures d'ouverture hebdomadaires
+  async getPublicHours(): Promise<
+    { dayOfWeek: number; openTime: string; closeTime: string; breaks: { startTime: string; endTime: string }[] }[]
+  > {
+    const rules = await this.ruleRepo.find({
+      where: { isActive: true },
+      order: { dayOfWeek: 'ASC' },
+      relations: ['breaks'],
+    })
+    return rules.map((r) => ({
+      dayOfWeek: r.dayOfWeek,
+      openTime: r.openTime,
+      closeTime: r.closeTime,
+      breaks: (r.breaks ?? []).map((b) => ({ startTime: b.startTime, endTime: b.endTime })),
+    }))
+  }
 }

@@ -57,6 +57,11 @@ export default defineNuxtModule<BookingModuleOptions>({
           file: resolver.resolve(runtimeDir, 'pages/booking/index.vue'),
         },
         {
+          name: 'booking-v2',
+          path: `${options.publicPrefix}/v2`,
+          file: resolver.resolve(runtimeDir, 'pages/booking/v2.vue'),
+        },
+        {
           name: 'booking-service',
           path: `${options.publicPrefix}/:serviceId`,
           file: resolver.resolve(runtimeDir, 'pages/booking/[serviceId].vue'),

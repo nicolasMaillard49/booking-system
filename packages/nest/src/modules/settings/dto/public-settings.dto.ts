@@ -9,4 +9,5 @@ export class PublicSettingsDto {
     description: string | null
     instructions: string | null
     timezone: string
+    autoConfirm: boolean
 }

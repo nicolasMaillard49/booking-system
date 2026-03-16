@@ -32,6 +32,13 @@ export class AvailabilityController {
     return { date, slots }
   }
 
+  // Route publique — horaires d'ouverture
+  // GET /booking/availability/hours
+  @Get('booking/availability/hours')
+  getPublicHours() {
+    return this.availabilityService.getPublicHours()
+  }
+
   // Routes admin — règles hebdomadaires
   @UseGuards(JwtAuthGuard)
   @Get('admin/availability/rules')
